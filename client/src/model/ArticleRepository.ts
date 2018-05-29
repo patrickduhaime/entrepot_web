@@ -1,9 +1,14 @@
 import * as _ from 'lodash';
 
-export enum Op {
+enum Op {
   CREATE = 'CREATE',
   UPDATE = 'UPDATE',
   DELETE = 'DELETE'
+}
+
+interface IArticleOperation {
+  operation: Op;
+  article: IArticle;
 }
 
 export interface IArticle {
@@ -13,18 +18,13 @@ export interface IArticle {
   SERIAL_NUMBER: string;
 }
 
-export interface IOperation {
-  operation: Op;
-  article: IArticle;
-}
-
 export class ArticleRepository {
   private articles: IArticle[];
-  private operations: IOperation[]
+  private operations: IArticleOperation[]
 
   constructor(articles?: IArticle[]) {
     this.articles = articles ? articles : new Array<IArticle>();
-    this.operations = new Array<IOperation>();
+    this.operations = new Array<IArticleOperation>();
   }
 
   /**

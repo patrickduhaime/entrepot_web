@@ -1,9 +1,14 @@
 import * as _ from 'lodash';
 
-export enum Op {
+enum Op {
   CREATE = 'CREATE',
   UPDATE = 'UPDATE',
   DELETE = 'DELETE'
+}
+
+interface ILocationOperation {
+  operation: Op;
+  location: ILocation;
 }
 
 export interface ILocation {
@@ -12,18 +17,13 @@ export interface ILocation {
   NODE_ID: number;
 }
 
-export interface IOperation {
-  operation: Op;
-  location: ILocation;
-}
-
 export class LocationRepository {
   private locations: ILocation[];
-  private operations: IOperation[]
+  private operations: ILocationOperation[]
 
   constructor(locations?: ILocation[]) {
     this.locations = locations ? locations : new Array<ILocation>();
-    this.operations = new Array<IOperation>();
+    this.operations = new Array<ILocationOperation>();
   }
 
   /**
