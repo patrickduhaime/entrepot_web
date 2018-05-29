@@ -23,10 +23,16 @@ export class ArticleRepository {
   private operations: IOperation[]
 
   constructor(articles?: IArticle[]) {
-    this.articles = articles;
+    this.articles = articles ? articles : new Array<IArticle>();
     this.operations = new Array<IOperation>();
   }
 
+  /**
+   * Créé un article dans le repository.
+   * @param name Le nom de l'article.
+   * @param description La description de l'article.
+   * @param serial_number Le numéro de série de l'article.
+   */
   public create(name: string, description: string, serial_number: string): IArticle {
     const top_index = _.max(_.map(this.articles, article => article.ID));
     const article = {
@@ -42,7 +48,19 @@ export class ArticleRepository {
     return article;
   }
 
+  /**
+   * Renvoi tous les articles qui correspond aux filtres.
+   * Renvoi tout si aucun filtre n'est donnés.
+   * @param id L'identifiant local d'un article.
+   * @param name Le nom de l'article.
+   * @param description La description de l'article.
+   * @param serial_number Le numéro de série de l'article.
+   */
   public read(id?: number, name?: string, description?: string, serial_number?: string): IArticle[] {
+    if (!id && !name && !description && !serial_number) {
+      return new Array(...this.articles);
+    }
+
     return _.filter(this.articles, article => {
       return (id && article.ID === id)
         || (name && article.NAME === name)
@@ -51,6 +69,13 @@ export class ArticleRepository {
     });
   }
 
+  /**
+   * Met à jour un article correspondant aux filtres.
+   * @param id L'identifiant local d'un article.
+   * @param name Le nom de l'article.
+   * @param description La description de l'article.
+   * @param serial_number Le numéro de série de l'article.
+   */
   public update(id: number, name: string, description: string, serial_number: string): IArticle {
     let updated_article: IArticle;
 
@@ -75,6 +100,13 @@ export class ArticleRepository {
     }
   }
 
+  /**
+   * Détruit un article correspondant aux filtres.
+   * @param id L'identifiant local d'un article.
+   * @param name Le nom de l'article.
+   * @param description La description de l'article.
+   * @param serial_number Le numéro de série de l'article.
+   */
   public delete(id?: number, name?: string, description?: string, serial_number?: string): IArticle {
     let deleted_article: IArticle;
     this.articles = _.filter(this.articles, article => {
