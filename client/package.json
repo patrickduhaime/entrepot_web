@@ -1,0 +1,22 @@
+{
+  "name": "gestion-inventaire",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jérémie Robert",
+  "license": "(c) Jérémie Robert",
+  "private": true,
+  "dependencies": {
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.109",
+    "http-server": "^0.11.1",
+    "ts-loader": "^4.3.0",
+    "typescript": "^2.8.3",
+    "webpack": "^4.10.1",
+    "webpack-cli": "^2.1.4"
+  },
+  "scripts": {
+    "pack": "webpack --config webpack.config.js"
+  }
+}
