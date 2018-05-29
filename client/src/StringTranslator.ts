@@ -16,6 +16,9 @@ const STRING_DICTONARY = {
   },
   "ARTICLE": {
     "fr": "Article"
+  },
+  "LOCATION": {
+    "fr": "Location"
   }
 };
 
