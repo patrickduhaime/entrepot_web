@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Dijkstra</title>
+		<script src="graph.js"></script>
+	</head>
+	<body>
+		<script>
+
+			//convertir un graphe uni-directionel en bi-directionel
+			//{ a: { b: cout de a->b }
+			//{ b: { a: cout de b->a }
+			
+			var map = {n1:{n2:1,n3:2,n4:8},n2:{n1:1,n3:1,n4:1},n3:{n1:2,n2:1,n4:6},n4:{n1:1,n2:1,n3:1}},
+			    
+			graph = new Graph(map);
+
+			console.log(graph.findShortestPath('n1', 'n4'));
+			
+		</script>
+	</body>
+</html>
