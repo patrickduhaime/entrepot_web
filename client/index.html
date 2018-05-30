@@ -19,23 +19,230 @@
 
   <!-- APPLICATION FILES -->
   <script src="./bin/app.bundle.js"></script>
+
+  <!-- FONT AWESOME-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    crossorigin="anonymous">
 </head>
 
-<body>
-  <div id="app">
-    <div id="admin-page"></div>
-    <div id="movement-page"></div>
+<style>
+  hr {
+    background-color: #212529;
+    border: 0 none;
+    color: #212529;
+    height: 2px;
+    margin-top: 100px;
+  }
+</style>
+
+<body style="padding-top: 80px; padding-bottom: 60px">
+
+  <!--****** NAV *****-->
+  <div id="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Gestion de stock</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Mouvement de stock</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Articles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Administration</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </div>
 
+  <div id="app" class="container">
 
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <button class="btn btn-outline-secondary" type="button">Rechercher</button>
+    <!--****** MOUVEMENT STOCK *****-->
+    <div id="movement-page">
+      <h4>Mouvement de stock</h4>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+            </div>
+            <input type="search" class="form-control" placeholder="Ajouter un article" aria-label="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-secondary btn-block mb-2">
+            <i class="fas fa-download"></i>&nbsp;Importer une liste d'article
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-secondary btn-block disabled">
+            <i class="fas fa-barcode"></i>&nbsp;Scanner une liste d'article
+          </button>
+        </div>
+      </div>
+
+      <div id="nonOptiList" class="row mt-4 mb-4">
+        <div class="col-lg-6 offset-lg-3">
+          <ul class="list-group">
+            <li class="list-group-item">Cras justo odio
+              <button type="button" class="btn btn-outline-danger float-right">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </li>
+            <li class="list-group-item">Dapibus ac facilisis in
+              <button type="button" class="btn btn-outline-danger float-right">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </li>
+            <li class="list-group-item">Morbi leo risus
+              <button type="button" class="btn btn-outline-danger float-right">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </li>
+            <li class="list-group-item">Porta ac consectetur ac
+              <button type="button" class="btn btn-outline-danger float-right">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </li>
+            <li class="list-group-item">Vestibulum at eros
+              <button type="button" class="btn btn-outline-danger float-right">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-success btn-block mb-2">
+            <i class="fas fa-sign-in-alt"></i>&nbsp;Entrer les articles
+          </button>
+        </div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-warning btn-block mb-2">
+            <i class="fas fa-sign-out-alt"></i>&nbsp;Sortir les articles
+          </button>
+        </div>
+      </div>
     </div>
-    <input type="search" class="form-control" placeholder="" aria-label="">
+
+    <hr>
+
+    <!--****** ARTICLES *****-->
+    <div id="article-page">
+      <h4>Articles</h4>
+      <div class="row">
+          <div class="col-md-5">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" type="button">Rechercher</button>
+              </div>
+              <input type="search" class="form-control" placeholder="" aria-label="">
+            </div>
+          </div>
+          <div class="col-md-5">
+            <button type="button" class="btn btn-secondary">
+              <i class="fas fa-plus"></i>&nbsp;Ajouter
+            </button>
+          </div>
+        </div>
+      <div id="object-selector"></div>
+      <div id="table-article"></div>
+    </div>
+
+    <hr>
+
+    <!--****** ADMIN *****-->
+    <div id="admin-page">
+      <h4>Administration</h4>
+      <nav class="mt-3">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-item nav-link active" id="nav-warehouse-tab" data-toggle="tab" href="#nav-warehouse" role="tab" aria-controls="nav-home"
+            aria-selected="true">Entrepôts</a>
+          <a class="nav-item nav-link" id="nav-location-tab" data-toggle="tab" href="#nav-location" role="tab" aria-controls="nav-profile"
+            aria-selected="false">Locations</a>
+          <a class="nav-item nav-link" id="nav-category-tab" data-toggle="tab" href="#nav-category" role="tab" aria-controls="nav-contact"
+            aria-selected="false">Catégories</a>
+        </div>
+      </nav>
+      <div class="tab-content mt-3" id="nav-tabContent">
+
+        <div class="tab-pane fade show active" id="nav-warehouse" role="tabpanel" aria-labelledby="nav-warehouse-tab">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" type="button">Rechercher</button>
+                </div>
+                <input type="search" class="form-control" placeholder="Rechercher un entrepôt" aria-label="">
+              </div>
+            </div>
+            <div class="col-md-5">
+              <button type="button" class="btn btn-secondary">
+                <i class="fas fa-plus"></i>&nbsp;Ajouter
+              </button>
+            </div>
+          </div>
+          <div id="table-warehouse"></div>
+        </div>
+
+        <div class="tab-pane fade" id="nav-location" role="tabpanel" aria-labelledby="nav-location-tab">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" type="button">Rechercher</button>
+                </div>
+                <input type="search" class="form-control" placeholder="Rechercher une location" aria-label="">
+              </div>
+            </div>
+            <div class="col-md-5">
+              <button type="button" class="btn btn-secondary">
+                <i class="fas fa-plus"></i>&nbsp;Ajouter
+              </button>
+            </div>
+          </div>
+          <div id="table-location"></div>
+        </div>
+
+        <div class="tab-pane fade" id="nav-category" role="tabpanel" aria-labelledby="nav-category-tab">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" type="button">Rechercher</button>
+                </div>
+                <input type="search" class="form-control" placeholder="Rechercher une catégorie" aria-label="">
+              </div>
+            </div>
+            <div class="col-md-5">
+              <button type="button" class="btn btn-secondary">
+                <i class="fas fa-plus"></i>&nbsp;Ajouter
+              </button>
+            </div>
+          </div>
+          <div id="table-category"></div>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
-  <div id="object-selector"></div>
-  <div id="table-article"></div>
 </body>
 
 </html>

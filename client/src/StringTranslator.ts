@@ -19,6 +19,18 @@ const STRING_DICTONARY = {
   },
   "LOCATION": {
     "fr": "Location"
+  },
+  "ADDRESS": {
+    "fr": "Adresse"
+  },
+  "CODE": {
+    "fr": "Code"
+  },
+  "NODE_ID": {
+    "fr": "Noeud"
+  },
+  "IDENTIFIER": {
+    "fr": "Identifiant"
   }
 };
 
