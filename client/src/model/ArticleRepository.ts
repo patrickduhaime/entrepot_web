@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { IRepository, IEntity } from './Repository';
 
 enum Op {
   CREATE = 'CREATE',
@@ -11,14 +12,13 @@ interface IArticleOperation {
   article: IArticle;
 }
 
-export interface IArticle {
-  ID: number;
+export interface IArticle extends IEntity {
   NAME: string;
   DESCRIPTION: string;
   SERIAL_NUMBER: string;
 }
 
-export class ArticleRepository {
+export class ArticleRepository implements IRepository {
   private articles: IArticle[];
   private operations: IArticleOperation[]
 
@@ -117,6 +117,7 @@ export class ArticleRepository {
         deleted_article = article;
         return false;
       }
+      return true;
     });
 
     if (deleted_article) {

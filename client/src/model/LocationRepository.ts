@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { IRepository } from './Repository';
 
 enum Op {
   CREATE = 'CREATE',
@@ -17,7 +18,7 @@ export interface ILocation {
   NODE_ID: number;
 }
 
-export class LocationRepository {
+export class LocationRepository implements IRepository {
   private locations: ILocation[];
   private operations: ILocationOperation[]
 
