@@ -5,15 +5,11 @@ import { LocationRepository } from '../model/LocationRepository';
 import { translate } from '../StringTranslator';
 
 const MANAGEMENT_VIEW_TEMPLATE = `
-<div class="management-panel">
   <div class="input-group mb-3">
     <div class="input-group-prepend"></div>
     <input type="search" class="form-control">
   </div>
-</div>
 `;
-
-
 
 export interface IDataSource {
   title: string;
@@ -29,14 +25,16 @@ export class ManagementView {
 
   constructor(protected element: HTMLElement, protected options: IManagementViewOptions) {
     this.parser = new DOMParser();
+    this.render();
   }
 
   public render() {
     let elem = document.createElement('div')
-    elem.outerHTML = MANAGEMENT_VIEW_TEMPLATE;
+    elem.className = 'management-panel';
+    elem.innerHTML = MANAGEMENT_VIEW_TEMPLATE;
     let prepend = elem.querySelector('.input-group-prepend');
     prepend.appendChild(this.buildSourceSelect());
-    this.element.outerHTML = elem.outerHTML;
+    this.element.innerHTML = elem.outerHTML;
   }
 
   private buildSourceSelect(): HTMLElement {

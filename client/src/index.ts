@@ -20,8 +20,8 @@ import { ManagementView } from './view/ManagementView';
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
-  window['ArticleRepository'] = new ArticleRepository(ARTICLES);
-  window['LocationRepository'] = new LocationRepository(LOCATIONS);
+  window['ArticleRepository'] = SETTING.dataSources[0].repository;
+  window['LocationRepository'] = SETTING.dataSources[0].repository;
 
   new ManagementView(document.getElementById('app'), SETTING);
 });
