@@ -3,8 +3,8 @@ import { translate } from './StringTranslator';
 import { DataRepository } from './DataRepository';
 import { DynamicElement } from './DynamicElement';
 
-const TABLE_TEMPLATE = `<table class="table">
-<thead>
+const TABLE_TEMPLATE = `<table class="table table-striped table-hover">
+<thead class="thead-dark">
   <tr>
     <% _.forEach(Object.getOwnPropertyNames(data[0]), (property) => {%>
       <th scope="col">

@@ -16,12 +16,19 @@ const SETTING = {
 import { ArticleRepository } from './model/ArticleRepository';
 import { LocationRepository } from './model/LocationRepository';
 import { ManagementView } from './view/ManagementView';
-
+import { DynamicTable } from './DynamicTable';
+import { DynamicSelector } from './DynamicSelector';
+import { DataRepository } from './DataRepository';
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
   window['ArticleRepository'] = SETTING.dataSources[0].repository;
   window['LocationRepository'] = SETTING.dataSources[0].repository;
 
-  new ManagementView(document.getElementById('app'), SETTING);
+  //new ManagementView(document.getElementById('app'), SETTING);
+  document.getElementById("table-article")['obj'] = new DynamicTable(document.getElementById("table-article"), () => DataRepository.articles);
+  document.getElementById("object-selector")['obj'] = new DynamicSelector(document.getElementById("object-selector"), () => DataRepository.entities);
+  document.getElementById("table-warehouse")['obj'] = new DynamicTable(document.getElementById("table-warehouse"), () => DataRepository.warehouses);
+  document.getElementById("table-location")['obj'] = new DynamicTable(document.getElementById("table-location"), () => DataRepository.locations);
+  document.getElementById("table-category")['obj'] = new DynamicTable(document.getElementById("table-category"), () => DataRepository.categories);
 });
