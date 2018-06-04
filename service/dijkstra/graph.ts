@@ -1,4 +1,4 @@
-class Graph {
+class GraphUtil {
   constructor(public map) {
 
   }

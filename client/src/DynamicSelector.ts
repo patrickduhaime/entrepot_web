@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import { translate } from './StringTranslator';
-import { DataRepository } from './DataRepository';
 import { DynamicElement } from './DynamicElement';
 
 const SELECT_TEMPLATE = `
