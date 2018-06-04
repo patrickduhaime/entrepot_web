@@ -4,9 +4,6 @@
   <!-- LODASH -->
   <script src="./node_modules/lodash/lodash.js"></script>
 
-  <!-- JQUERY (DEPENDANCE TRANSITIVE BOOTSTRAP) -->
-  <!-- <script src="./node_modules/jquery/dist/jquery.js"></script> -->
-
   <!-- BOOTSTRAP -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
     crossorigin="anonymous">
@@ -17,23 +14,14 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
     crossorigin="anonymous"></script>
 
-  <!-- APPLICATION FILES -->
-  <script src="./bin/app.bundle.js"></script>
-
   <!-- FONT AWESOME-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
     crossorigin="anonymous">
-</head>
 
-<style>
-  hr {
-    background-color: #212529;
-    border: 0 none;
-    color: #212529;
-    height: 2px;
-    margin-top: 100px;
-  }
-</style>
+  <!-- APPLICATION FILES -->
+  <link rel="stylesheet" href="./style/app.css">
+  <script src="./bin/app.bundle.js"></script>
+</head>
 
 <body style="padding-top: 80px; padding-bottom: 60px">
 
@@ -50,9 +38,6 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="#movement-page">Mouvement de stock</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#article-page">Articles</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#admin-page">Administration</a>
@@ -142,46 +127,39 @@
 
     <hr>
 
-    <!--****** ARTICLES *****-->
-    <div id="article-page">
-      <h4>Articles</h4>
-      <div class="row">
-          <div class="col-md-5">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button">Rechercher</button>
-              </div>
-              <input type="search" class="form-control" placeholder="" aria-label="">
-            </div>
-          </div>
-          <div class="col-md-5">
-            <button type="button" class="btn btn-secondary">
-              <i class="fas fa-plus"></i>&nbsp;Ajouter
-            </button>
-          </div>
-        </div>
-      <div id="object-selector"></div>
-      <div id="table-article"></div>
-    </div>
-
-    <hr>
-
     <!--****** ADMIN *****-->
     <div id="admin-page">
       <h4>Administration</h4>
       <nav class="mt-3">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link active" id="nav-warehouse-tab" data-toggle="tab" href="#nav-warehouse" role="tab" aria-controls="nav-home"
-            aria-selected="true">Entrepôts</a>
-          <a class="nav-item nav-link" id="nav-location-tab" data-toggle="tab" href="#nav-location" role="tab" aria-controls="nav-profile"
-            aria-selected="false">Locations</a>
-          <a class="nav-item nav-link" id="nav-category-tab" data-toggle="tab" href="#nav-category" role="tab" aria-controls="nav-contact"
-            aria-selected="false">Catégories</a>
+          <a class="nav-item nav-link active" id="nav-warehouse-tab" data-toggle="tab" href="#nav-article" role="tab">Article</a>
+          <a class="nav-item nav-link" id="nav-warehouse-tab" data-toggle="tab" href="#nav-warehouse" role="tab">Entrepôts</a>
+          <a class="nav-item nav-link" id="nav-location-tab" data-toggle="tab" href="#nav-location" role="tab">Locations</a>
+          <a class="nav-item nav-link" id="nav-category-tab" data-toggle="tab" href="#nav-category" role="tab">Catégories</a>
         </div>
       </nav>
       <div class="tab-content mt-3" id="nav-tabContent">
 
-        <div class="tab-pane fade show active" id="nav-warehouse" role="tabpanel" aria-labelledby="nav-warehouse-tab">
+        <div class="tab-pane fade show active" id="nav-article" role="tabpanel">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" type="button">Rechercher</button>
+                </div>
+                <input type="search" class="form-control" placeholder="Rechercher un article">
+              </div>
+            </div>
+            <div class="col-md-5">
+              <button type="button" class="btn btn-secondary">
+                <i class="fas fa-plus"></i>&nbsp;Ajouter
+              </button>
+            </div>
+          </div>
+          <div id="table-article"></div>
+        </div>
+
+        <div class="tab-pane fade show" id="nav-warehouse" role="tabpanel" aria-labelledby="nav-warehouse-tab">
           <div class="row">
             <div class="col-md-5">
               <div class="input-group mb-3">

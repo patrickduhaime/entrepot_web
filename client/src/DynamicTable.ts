@@ -3,6 +3,8 @@ import { translate } from './StringTranslator';
 import { DataRepository } from './DataRepository';
 import { DynamicElement } from './DynamicElement';
 
+window['translate'] = translate;
+
 const TABLE_TEMPLATE = `<table class="table table-striped table-hover">
 <thead class="thead-dark">
   <tr>
