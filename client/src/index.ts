@@ -99,8 +99,8 @@ import { DynamicSelector } from './DynamicSelector';
 document.addEventListener("DOMContentLoaded", (event) => {
 
   //new ManagementView(document.getElementById('app'), SETTING);
-  document.getElementById("table-article")['obj'] = new DynamicTable(document.getElementById("table-article"), (SETTING.dataSources[0].repository as ArticleRepository).read);
-  document.getElementById("table-location")['obj'] = new DynamicTable(document.getElementById("table-location"), (SETTING.dataSources[1].repository as LocationRepository).read);
-  document.getElementById("table-warehouse")['obj'] = new DynamicTable(document.getElementById("table-warehouse"), (SETTING.dataSources[2].repository as WarehouseRepository).read);
-  document.getElementById("table-category")['obj'] = new DynamicTable(document.getElementById("table-category"), (SETTING.dataSources[3].repository as CategoryRepository).read);
+  document.getElementById("table-article")['obj'] = new DynamicTable(document.getElementById("table-article"), () => (SETTING.dataSources[0].repository as ArticleRepository).read());
+  document.getElementById("table-location")['obj'] = new DynamicTable(document.getElementById("table-location"), () => (SETTING.dataSources[1].repository as LocationRepository).read());
+  document.getElementById("table-warehouse")['obj'] = new DynamicTable(document.getElementById("table-warehouse"), () => (SETTING.dataSources[2].repository as WarehouseRepository).read());
+  document.getElementById("table-category")['obj'] = new DynamicTable(document.getElementById("table-category"), () => (SETTING.dataSources[3].repository as CategoryRepository).read());
 });
