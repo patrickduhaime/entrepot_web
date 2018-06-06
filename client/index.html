@@ -129,7 +129,8 @@
 
     <!--****** ADMIN *****-->
     <div id="admin-page" style="display: none">
-      <h4>Administration</h4>
+      <!-- <h4>Administration</h4>
+
       <nav class="mt-3">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active" id="nav-article-tab" data-toggle="tab" href="#nav-article" role="tab">Article</a>
@@ -138,6 +139,7 @@
           <a class="nav-item nav-link" id="nav-category-tab" data-toggle="tab" href="#nav-category" role="tab">Catégories</a>
         </div>
       </nav>
+      
       <div class="tab-content mt-3" id="nav-tabContent">
 
         <div class="tab-pane fade show active" id="nav-article" role="tabpanel">
@@ -150,7 +152,7 @@
                 <input type="search" class="form-control" placeholder="Rechercher un article">
               </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 mb-3">
               <button type="button" class="btn btn-primary add-btn">
                 <i class="fas fa-plus"></i>&nbsp;Ajouter
               </button>
@@ -158,7 +160,7 @@
           </div>
           <div id="table-article"></div>
         </div>
-
+      
         <div class="tab-pane fade show" id="nav-warehouse" role="tabpanel" aria-labelledby="nav-warehouse-tab">
           <div class="row">
             <div class="col-md-5">
@@ -169,7 +171,7 @@
                 <input type="search" class="form-control" placeholder="Rechercher un entrepôt" aria-label="">
               </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 mb-3">
               <button type="button" class="btn btn-primary add-btn">
                 <i class="fas fa-plus"></i>&nbsp;Ajouter
               </button>
@@ -177,7 +179,7 @@
           </div>
           <div id="table-warehouse"></div>
         </div>
-
+      
         <div class="tab-pane fade" id="nav-location" role="tabpanel" aria-labelledby="nav-location-tab">
           <div class="row">
             <div class="col-md-5">
@@ -188,7 +190,7 @@
                 <input type="search" class="form-control" placeholder="Rechercher une location" aria-label="">
               </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 mb-3">
               <button type="button" class="btn btn-primary add-btn">
                 <i class="fas fa-plus"></i>&nbsp;Ajouter
               </button>
@@ -196,7 +198,7 @@
           </div>
           <div id="table-location"></div>
         </div>
-
+      
         <div class="tab-pane fade" id="nav-category" role="tabpanel" aria-labelledby="nav-category-tab">
           <div class="row">
             <div class="col-md-5">
@@ -207,7 +209,7 @@
                 <input type="search" class="form-control" placeholder="Rechercher une catégorie" aria-label="">
               </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 mb-3">
               <button type="button" class="btn btn-primary add-btn">
                 <i class="fas fa-plus"></i>&nbsp;Ajouter
               </button>
@@ -215,11 +217,32 @@
           </div>
           <div id="table-category"></div>
         </div>
-
-      </div>
-
+        
+      </div> -->
     </div>
+  </div>
 
+  <!--***** MODALS *****-->
+  <div id="admin-modal" class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" data-focus="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <!-- entity title -->
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- entity form -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Sauvegarder les changements</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 

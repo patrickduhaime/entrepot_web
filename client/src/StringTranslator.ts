@@ -31,6 +31,24 @@ const STRING_DICTONARY = {
   },
   "IDENTIFIER": {
     "fr": "Identifiant"
+  },
+  "FIND_A_ARTICLE": {
+    "fr": "Rechercher un article"
+  },
+  "FIND_A_LOCATION": {
+    "fr": "Rechercher une location"
+  },
+  "FIND_A_WAREHOUSE": {
+    "fr": "Rechercher un entrepôt"
+  },
+  "FIND_A_CATEGORIE": {
+    "fr": "Rechercher une catégorie"
+  },
+  "WAREHOUSE": {
+    "fr": "Entrepôt"
+  },
+  "CATEGORIE": {
+    "fr": "Catégorie"
   }
 };
 
