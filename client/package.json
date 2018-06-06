@@ -6,7 +6,8 @@
   "license": "(c) Jérémie Robert",
   "private": true,
   "dependencies": {
-    "jquery-slim": "^3.0.0",
+    "@types/jquery": "^3.3.2",
+    "jquery": "^3.3.1",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
