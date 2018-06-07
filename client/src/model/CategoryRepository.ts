@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { IRepository } from './Repository';
+import { IRepository, IEntity } from './Repository';
 
 enum Op {
   CREATE = 'CREATE',
@@ -12,8 +12,7 @@ interface ICategoryOperation {
   category: ICategory;
 }
 
-export interface ICategory {
-  ID: number;
+export interface ICategory extends IEntity {
   CODE: string;
   NAME: string;
   DESCRIPTION: string;
@@ -34,7 +33,11 @@ export class CategoryRepository implements IRepository {
    * @param name Le nom de la catégorie.
    * @param description Description de la catégorie.
    */
-  public create(code: string, name: string, description: string): ICategory {
+  public create(entity: ICategory): ICategory {
+    const code = entity.CODE;
+    const name = entity.NAME;
+    const description = entity.DESCRIPTION;
+
     const top_index = _.max(_.map(this.categorys, category => category.ID));
     const category = {
       ID: top_index + 1,
@@ -57,7 +60,12 @@ export class CategoryRepository implements IRepository {
    * @param name Le nom de la catégorie.
    * @param description Description de la catégorie.
    */
-  public read(id?: number, code?: string, name?: string, description?: string): ICategory[] {
+  public read(entity?: ICategory): ICategory[] {
+    const id = entity ? entity.ID : null;
+    const code = entity ? entity.CODE : null;
+    const name = entity ? entity.NAME : null;
+    const description = entity ? entity.DESCRIPTION : null;
+
     if (!id && !code && !name) {
       return new Array(...this.categorys);
     }
@@ -77,7 +85,12 @@ export class CategoryRepository implements IRepository {
    * @param name Le nom de la catégorie.
    * @param description Description de la catégorie.
    */
-  public update(id?: number, code?: string, name?: string, description?: string): ICategory {
+  public update(entity: ICategory): ICategory {
+    const id = entity.ID;
+    const code = entity.CODE;
+    const name = entity.NAME;
+    const description = entity.DESCRIPTION;
+
     let updated_category: ICategory;
 
     this.categorys = _.map(this.categorys, category => {
@@ -108,8 +121,14 @@ export class CategoryRepository implements IRepository {
    * @param name Le nom de la catégorie.
    * @param description Description de la catégorie.
    */
-  public delete(id?: number, code?: string, name?: string, description?: string): ICategory {
+  public delete(entity: ICategory): ICategory {
+    const id = entity.ID;
+    const code = entity.CODE;
+    const name = entity.NAME;
+    const description = entity.DESCRIPTION;
+
     let deleted_category: ICategory;
+
     this.categorys = _.filter(this.categorys, category => {
       if ((id && category.ID === id)
         || (code && category.CODE === code)
@@ -118,6 +137,7 @@ export class CategoryRepository implements IRepository {
         deleted_category = category;
         return false;
       }
+      return true;
     });
 
     if (deleted_category) {
