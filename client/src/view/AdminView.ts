@@ -66,18 +66,12 @@ export class AdminView {
         </tr>
       </thead>
       <tbody>
-        ${entities.reduce((acc, entity) => {
-        return acc + `<tr data-type="${type}" data-id="${entity.ID}">${Object.getOwnPropertyNames(entity).reduce((acc, property) => {
-          return acc + `<td>${entity[property]}</td>`;
-        }, '')}
-          <td><button type="button" class="btn btn-danger delete-btn" data-type="${type}" data-id="${entity.ID}">${translate('DELETE')}</button></td>
-        </tr>`;
-      }, '')}
+        ${entities.reduce((acc, entity) => { return acc + this.buildTableRow(type, entity) }, '')}
       </tbody>
     </table>`);
   }
 
-  public buildTableRow(type: string, entity: IEntity) {
+  private buildTableRow(type: string, entity: IEntity) {
     return (`<tr data-type="${type}" data-id="${entity.ID}">${
       Object.getOwnPropertyNames(entity).reduce((acc, property) => {
         return acc + `<td>${entity[property]}</td>`;
@@ -88,6 +82,12 @@ export class AdminView {
         </button>
       </td>
     </tr>`);
+  }
+
+  public update(type: string, entity: IEntity) {
+    let el = $(this.buildTableRow(type, entity))[0];
+    $(`table tbody tr[data-id=${entity.ID}][data-type=${type}]`).replaceWith(el);
+    return el;
   }
 
   public delete(type: string, id: string) {

@@ -19,7 +19,8 @@ export class AdminController {
 
   private bindEvents() {
     $(this.element).find('.add-btn').click(event => { this.handleAddClick(event) });
-    $('#admin-add-modal .add-btn').click(event => { this.handleModalAdd(event) })
+    $('#admin-add-modal .add-btn').click(event => { this.handleModalAdd(event) });
+    $('#admin-edit-modal .edit-btn').click(event => { this.handleModalEdit(event) });
     this.bindTableEvents();
   }
 
@@ -30,19 +31,30 @@ export class AdminController {
   }
 
   private handleModalAdd(event: JQuery.Event) {
-    const newEntity = this.currentRepository.create(this.addModal.fields.reduce((acc, field) => {
+    const modal = this.addModal;
+    const newEntity = this.currentRepository.create(modal.fields.reduce((acc, field) => {
       acc[field.label] = field.value;
       return acc;
     }, { ID: null }));
-    this.bindTableEvents(this.view.add(this.addModal.type, newEntity));
-    this.addModal.hide();
+    this.bindTableEvents(this.view.add(modal.data.type, newEntity));
+    modal.hide();
+  }
+
+  //TODO
+  private handleModalEdit(event: JQuery.Event) {
+    const modal = this.editModal;
+    const newEntity = this.currentRepository.update(modal.fields.reduce((acc, field) => {
+      acc[field.label] = field.value;
+      return acc;
+    }, { ID: parseInt((modal.data as { type: string, id: string }).id) }));
+    this.bindTableEvents(this.view.update(modal.data.type, newEntity));
+    modal.hide();
   }
 
   private handleAddClick(event: JQuery.Event) {
     const target = event.target as HTMLElement;
     const data = target.dataset as { type: string, id: string };
     const modal = this.addModal;
-    this.addModal.type = data.type;
 
     modal.title = `Ajouter ${data.type.toLowerCase()}`;
     modal.fields = this.view.options.datasources
@@ -54,7 +66,7 @@ export class AdminController {
           return { label: property, value: '' };
         })];
       }, []);
-    this.addModal.show(data);
+    modal.show(data);
   }
 
   private handleDeleteClick(event: JQuery.Event) {
@@ -69,14 +81,29 @@ export class AdminController {
   }
 
   private handleEditClick(event: JQuery.Event) {
-    const target = event.target as HTMLElement;
-    const data = target.dataset;
+    let target = event.target as HTMLElement;
 
     if (target.nodeName !== 'BUTTON') {
-      alert('Pop an edit modal');
-
-    } else {
-      throw new Error('That\'s a delete action !');
+      let data = target.dataset as { type: string, id: string };
+      let i = 0
+      while (i <= 10 && (!data.id || !data.type)) {
+        target = target.parentElement;
+        data = target.dataset as { type: string, id: string };
+        i++;
+      }
+      if (i === 10) throw new Error('DATASET NOT FIND');
+      const modal = this.editModal;
+      modal.title = `Modifier ${data.type.toLowerCase()}`;
+      modal.fields = this.view.options.datasources
+        .filter(datasource => datasource.title === data.type)
+        .reduce((acc, datasource) => {
+          this.currentRepository = datasource.repository
+          const entity = this.currentRepository.read({ ID: parseInt(data.id, 10) })[0];
+          return [...Object.getOwnPropertyNames(entity).filter(property => property !== 'ID').map(property => {
+            return { label: property, value: entity[property] };
+          })];
+        }, []);
+      modal.show(data);
     }
   }
 }
