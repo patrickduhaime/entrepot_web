@@ -3,6 +3,7 @@ import * as Bootstrap from "bootstrap";
 import { translate } from '../StringTranslator';
 
 export class ModalView {
+  public type: string;
   private _title: string;
   public get title(): string {
     return this._title;
@@ -19,13 +20,17 @@ export class ModalView {
   public set fields(value: { label: string, value: any }[]) {
     $(this.element).find('.modal-body').children().remove();
     value.forEach(field => {
-      console.log(field);
       $(this.element).find('.modal-body').append(`<div class="form-group">
         <label>${translate(field.label)}</label>
         <input class="form-control" type="text" placeholder="${field.value}" data-field="${field.label}">
       </div>
       `);
     });
+    $(this.element).find('.modal-body input').get().forEach((element) => {
+      $(element).bind('change', event => {
+        this.updateField(event.target.dataset.field, (event.target as HTMLInputElement).value)
+      });
+    })
     this._fields = value;
   }
 
@@ -35,12 +40,23 @@ export class ModalView {
 
   }
 
+  private updateField(label, value) {
+    this._fields.forEach(field => {
+      if (field.label === label) {
+        field.value = value;
+      }
+    })
+    return this;
+  }
+
   public show(data?: { [key: string]: string }) {
     this.data = data;
     $(this.element).modal('show');
+    return this;
   }
 
   public hide() {
     $(this.element).modal('hide');
+    return this;
   }
 }

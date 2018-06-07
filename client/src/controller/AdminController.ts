@@ -1,10 +1,13 @@
 import * as JQuery from 'jquery';
 import { AdminView } from '../view/AdminView';
 import { ModalView } from '../view/ModalView';
+import { IRepository, IEntity } from '../model/Repository';
 
 export class AdminController {
   private addModal: ModalView;
   private editModal: ModalView;
+
+  private currentRepository: IRepository;
 
   constructor(
     public element: HTMLElement,
@@ -16,30 +19,37 @@ export class AdminController {
 
   private bindEvents() {
     $(this.element).find('.add-btn').click(event => { this.handleAddClick(event) });
-    $('#admin-add-modal add-btn').click(event => {
-      this.handleModalAdd(event);
-    })
+    $('#admin-add-modal .add-btn').click(event => { this.handleModalAdd(event) })
     this.bindTableEvents();
   }
 
-  private handleModalAdd(event: JQuery.Event) {
-
+  private bindTableEvents(element?: HTMLElement) {
+    let target = element ? $(element) : $(this.element).find('tbody tr');
+    $(target).click(event => { this.handleEditClick(event) });
+    $(target).find('.delete-btn').click(event => { this.handleDeleteClick(event) });
   }
 
-  private bindTableEvents() {
-    $(this.element).find('tbody tr').click(event => { this.handleEditClick(event) });
-    $(this.element).find('tbody .delete-btn').click(event => { this.handleDeleteClick(event) });
+  private handleModalAdd(event: JQuery.Event) {
+    const newEntity = this.currentRepository.create(this.addModal.fields.reduce((acc, field) => {
+      acc[field.label] = field.value;
+      return acc;
+    }, { ID: null }));
+    this.bindTableEvents(this.view.add(this.addModal.type, newEntity));
+    this.addModal.hide();
   }
 
   private handleAddClick(event: JQuery.Event) {
     const target = event.target as HTMLElement;
     const data = target.dataset as { type: string, id: string };
     const modal = this.addModal;
+    this.addModal.type = data.type;
+
     modal.title = `Ajouter ${data.type.toLowerCase()}`;
     modal.fields = this.view.options.datasources
       .filter(datasource => datasource.title === data.type)
       .reduce((acc, datasource) => {
-        let entity = datasource.repository.read({ ID: parseInt(data.id, 10) })[0];
+        this.currentRepository = datasource.repository
+        const entity = this.currentRepository.read({ ID: parseInt(data.id, 10) })[0];
         return [...Object.getOwnPropertyNames(entity).filter(property => property !== 'ID').map(property => {
           return { label: property, value: '' };
         })];
@@ -55,7 +65,6 @@ export class AdminController {
         source.repository.delete({ ID: parseInt(data.id, 10) });
       }
     });
-    console.log('DELETE :: ' + data.type + data.id);
     this.view.delete(data.type, data.id);
   }
 
@@ -67,7 +76,7 @@ export class AdminController {
       alert('Pop an edit modal');
 
     } else {
-      console.log('That\'s a delete action !');
+      throw new Error('That\'s a delete action !');
     }
   }
 }
