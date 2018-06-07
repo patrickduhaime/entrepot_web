@@ -60,15 +60,15 @@ export class WarehouseRepository implements IRepository {
     const identifier = entity ? entity.IDENTIFIER : null;
     const address = entity ? entity.ADDRESS : null;
 
-    if (!id && !identifier && !address) {
+    if (!entity || (!id && !identifier && !address)) {
       return new Array(...this.warehouses);
     }
 
-    return _.filter(this.warehouses, warehouse => {
+    return (_.filter(this.warehouses, warehouse => {
       return (id && warehouse.ID === id)
         || (identifier && warehouse.IDENTIFIER === identifier)
         || (address && warehouse.ADDRESS === address);
-    });
+    }));
   }
 
   /**
@@ -123,6 +123,7 @@ export class WarehouseRepository implements IRepository {
         deleted_warehouse = warehouse;
         return false;
       }
+      return true;
     });
 
     if (deleted_warehouse) {

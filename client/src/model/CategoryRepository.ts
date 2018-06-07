@@ -137,6 +137,7 @@ export class CategoryRepository implements IRepository {
         deleted_category = category;
         return false;
       }
+      return true;
     });
 
     if (deleted_category) {

@@ -37,23 +37,15 @@ export class AdminView {
       }
     </div>`);
 
-    this.controller = new AdminController(this.element);
+    this.controller = new AdminController(this.element, this);
   }
 
   private buildTabBody(type: string, repository: IRepository, show?: boolean) {
     return (`
       <div id="nav-${type.toLowerCase()}" class="tab-pane fade show ${show ? 'active' : ''}" role="tabpanel">
         <div class="row">
-          <div class="col-md-5">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary search-btn" type="button">Rechercher</button>
-              </div>
-              <input type="search" class="form-control" placeholder="${translate('FIND_A_' + type)}">
-            </div>
-          </div>
           <div class="col-md-5 mb-3">
-            <button type="button" class="btn btn-primary add-btn">
+            <button type="button" class="btn btn-primary add-btn" data-type="${type}">
               <i class="fas fa-plus"></i>&nbsp;Ajouter
             </button>
           </div>
@@ -75,20 +67,17 @@ export class AdminView {
       </thead>
       <tbody>
         ${entities.reduce((acc, entity) => {
-        return acc + `<tr id="${type}-${entity.ID}">${Object.getOwnPropertyNames(entity).reduce((acc, property) => {
+        return acc + `<tr data-type="${type}" data-id="${entity.ID}">${Object.getOwnPropertyNames(entity).reduce((acc, property) => {
           return acc + `<td>${entity[property]}</td>`;
         }, '')}
-          <td><button type="button" class="btn btn-danger">${ translate('DELETE')}</button></td>
+          <td><button type="button" class="btn btn-danger delete-btn" data-type="${type}" data-id="${entity.ID}">${translate('DELETE')}</button></td>
         </tr>`;
       }, '')}
       </tbody>
     </table>`);
   }
 
-  public updateTable() {
-    this.options.datasources.forEach(datasource => {
-      $(`.nav-${datasource.title.toLowerCase()} table`)
-        .replaceWith(this.buildTable(datasource.title, datasource.repository));
-    });
+  public delete(type: string, id: string) {
+    $(`table tbody tr[data-id=${id}][data-type=${type}]`).remove();
   }
 }

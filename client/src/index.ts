@@ -105,8 +105,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
   // Controller bootstrap
   let menu_element = document.getElementById('navbar');
   menu_element['obj'] = new MenuController(menu_element);
-  let admin_element = document.getElementById('admin-page');
-  admin_element['obj'] = new AdminController(admin_element);
   let movement_element = document.getElementById('movement-page');
   movement_element['obj'] = new MovementController(movement_element);
 });

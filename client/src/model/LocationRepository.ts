@@ -123,6 +123,7 @@ export class LocationRepository implements IRepository {
         deleted_location = location;
         return false;
       }
+      return true;
     });
 
     if (deleted_location) {
