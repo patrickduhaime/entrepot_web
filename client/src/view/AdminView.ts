@@ -1,4 +1,4 @@
-import { IRepository } from '../model/Repository';
+import { IRepository, IEntity } from '../model/Repository';
 import { translate } from '../StringTranslator';
 import { AdminController } from '../controller/AdminController';
 
@@ -56,7 +56,7 @@ export class AdminView {
 
   private buildTable(type: string, repository: IRepository): string {
     const entities = repository.read();
-    return (`<table class="table table-striped table-hover">
+    return (`<table class="table table-striped table-hover" data-type="${type}">
       <thead class="thead-dark">
         <tr>
         ${Object.getOwnPropertyNames(entities[0]).reduce((acc, title) => {
@@ -77,7 +77,26 @@ export class AdminView {
     </table>`);
   }
 
+  public buildTableRow(type: string, entity: IEntity) {
+    return (`<tr data-type="${type}" data-id="${entity.ID}">${
+      Object.getOwnPropertyNames(entity).reduce((acc, property) => {
+        return acc + `<td>${entity[property]}</td>`;
+      }, '')}
+      <td>
+        <button type="button" class="btn btn-danger delete-btn" data-type="${type}" data-id="${entity.ID}">
+          ${translate('DELETE')}
+        </button>
+      </td>
+    </tr>`);
+  }
+
   public delete(type: string, id: string) {
     $(`table tbody tr[data-id=${id}][data-type=${type}]`).remove();
+  }
+
+  public add(type: string, entity: IEntity) {
+    let el = $(this.buildTableRow(type, entity))[0];
+    $(`table[data-type=${type}] tbody`).append(el);
+    return el;
   }
 }

@@ -39,7 +39,7 @@ const test: INode = {
   r7c2: { r7c1: 1, r8c2: 2, r7c3: 1 },
   r7c3: { r7c2: 2, r8c3: 2, r7c4: 1 },
   r7c4: { r7c3: 1, r8c4: 2 },
-  r8c0: { r3c4: 3, r7c0: 2, r8c1: 1},
+  r8c0: { r3c4: 3, r7c0: 2, r8c1: 1 },
   r8c1: { r8c0: 1, r7c1: 2, r8c2: 1},
   r8c2: { r8c1: 1, r7c2: 2, r8c3: 1},
   r8c3: { r8c2: 1, r7c3: 2, r8c4: 1},

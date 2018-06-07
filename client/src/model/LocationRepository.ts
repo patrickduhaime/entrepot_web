@@ -14,7 +14,7 @@ interface ILocationOperation {
 
 export interface ILocation extends IEntity {
   SERIAL_NUMBER: string;
-  NODE_ID: number;
+  NODE_ID: string;
 }
 
 export class LocationRepository implements IRepository {
