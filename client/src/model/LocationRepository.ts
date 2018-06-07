@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { IRepository } from './Repository';
+import { IRepository, IEntity } from './Repository';
 
 enum Op {
   CREATE = 'CREATE',
@@ -12,8 +12,7 @@ interface ILocationOperation {
   location: ILocation;
 }
 
-export interface ILocation {
-  ID: number;
+export interface ILocation extends IEntity {
   SERIAL_NUMBER: string;
   NODE_ID: number;
 }
@@ -32,7 +31,10 @@ export class LocationRepository implements IRepository {
    * @param serial_number Le numéro de série de la location.
    * @param node_id L'identifiant de la node du graphe.
    */
-  public create(serial_number: string, node_id: number): ILocation {
+  public create(entity: ILocation): ILocation {
+    const serial_number = entity.SERIAL_NUMBER;
+    const node_id = entity.NODE_ID;
+
     const top_index = _.max(_.map(this.locations, location => location.ID));
     const location = {
       ID: top_index + 1,
@@ -53,7 +55,11 @@ export class LocationRepository implements IRepository {
    * @param serial_number Le numéro de série de la location.
    * @param node_id L'identifiant de la node du graphe.
    */
-  public read(id?: number, serial_number?: string, node_id?: number): ILocation[] {
+  public read(entity?: ILocation): ILocation[] {
+    const id = entity ? entity.ID : null;
+    const serial_number = entity ? entity.SERIAL_NUMBER : null;
+    const node_id = entity ? entity.NODE_ID : null;
+
     if (!id && !serial_number && !node_id) {
       return new Array(...this.locations);
     }
@@ -71,7 +77,11 @@ export class LocationRepository implements IRepository {
    * @param serial_number Le numéro de série de la location.
    * @param node_id L'identifiant de la node du graphe.
    */
-  public update(id?: number, serial_number?: string, node_id?: number): ILocation {
+  public update(entity: ILocation): ILocation {
+    const id = entity.ID;
+    const serial_number = entity.SERIAL_NUMBER;
+    const node_id = entity.NODE_ID;
+
     let updated_location: ILocation;
 
     this.locations = _.map(this.locations, location => {
@@ -100,7 +110,11 @@ export class LocationRepository implements IRepository {
    * @param serial_number Le numéro de série de la location.
    * @param node_id L'identifiant de la node du graphe.
    */
-  public delete(id?: number, serial_number?: string, node_id?: number): ILocation {
+  public delete(entity: ILocation): ILocation {
+    const id = entity.ID;
+    const serial_number = entity.SERIAL_NUMBER;
+    const node_id = entity.NODE_ID;
+
     let deleted_location: ILocation;
     this.locations = _.filter(this.locations, location => {
       if ((id && location.ID === id)

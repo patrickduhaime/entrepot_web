@@ -49,6 +49,9 @@ const STRING_DICTONARY = {
   },
   "CATEGORIE": {
     "fr": "Catégorie"
+  },
+  "DELETE": {
+    "fr": "Suprimmer"
   }
 };
 

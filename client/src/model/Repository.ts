@@ -1,8 +1,8 @@
 export interface IRepository {
-  create: any;
-  read: any;
-  update: any;
-  delete: any;
+  create(entity: IEntity): IEntity;
+  read(entity?: IEntity): IEntity[];
+  update(entity: IEntity): IEntity;
+  delete(entity: IEntity): IEntity;
 }
 
 export interface IEntity {

@@ -33,7 +33,11 @@ export class ArticleRepository implements IRepository {
    * @param description La description de l'article.
    * @param serial_number Le numéro de série de l'article.
    */
-  public create(name: string, description: string, serial_number: string): IArticle {
+  public create(entity: IArticle): IArticle {
+    const name = entity.NAME;
+    const description = entity.DESCRIPTION;
+    const serial_number = entity.SERIAL_NUMBER;
+
     const top_index = _.max(_.map(this.articles, article => article.ID));
     const article = {
       ID: top_index + 1,
@@ -56,7 +60,12 @@ export class ArticleRepository implements IRepository {
    * @param description La description de l'article.
    * @param serial_number Le numéro de série de l'article.
    */
-  public read(id?: number, name?: string, description?: string, serial_number?: string): IArticle[] {
+  public read(entity?: IArticle): IArticle[] {
+    const id = entity ? entity.ID : null;
+    const name = entity ? entity.NAME : null;
+    const description = entity ? entity.DESCRIPTION : null;
+    const serial_number = entity ? entity.SERIAL_NUMBER : null;
+
     if (!id && !name && !description && !serial_number) {
       return new Array(...this.articles);
     }
@@ -76,7 +85,12 @@ export class ArticleRepository implements IRepository {
    * @param description La description de l'article.
    * @param serial_number Le numéro de série de l'article.
    */
-  public update(id: number, name: string, description: string, serial_number: string): IArticle {
+  public update(entity: IArticle): IArticle {
+    const id = entity.ID;
+    const name = entity.NAME;
+    const description = entity.DESCRIPTION;
+    const serial_number = entity.SERIAL_NUMBER;
+
     let updated_article: IArticle;
 
     this.articles = _.map(this.articles, article => {
@@ -107,8 +121,14 @@ export class ArticleRepository implements IRepository {
    * @param description La description de l'article.
    * @param serial_number Le numéro de série de l'article.
    */
-  public delete(id?: number, name?: string, description?: string, serial_number?: string): IArticle {
+  public delete(entity: IArticle): IArticle {
+    const id = entity.ID;
+    const name = entity.NAME;
+    const description = entity.DESCRIPTION;
+    const serial_number = entity.SERIAL_NUMBER;
+
     let deleted_article: IArticle;
+
     this.articles = _.filter(this.articles, article => {
       if ((id && article.ID === id)
         || (name && article.NAME === name)

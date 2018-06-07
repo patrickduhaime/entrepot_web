@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { IRepository } from './Repository';
+import { IRepository, IEntity } from './Repository';
 
 enum Op {
   CREATE = 'CREATE',
@@ -12,8 +12,7 @@ interface IWarehouseOperation {
   warehouse: IWarehouse;
 }
 
-export interface IWarehouse {
-  ID: number;
+export interface IWarehouse extends IEntity {
   IDENTIFIER: string,
   ADDRESS: string
 }
@@ -32,7 +31,10 @@ export class WarehouseRepository implements IRepository {
    * @param identifier L'identifier de la warehouse.
    * @param address L'addresse de la warehouse.
    */
-  public create(identifier: string, address: string): IWarehouse {
+  public create(entity: IWarehouse): IWarehouse {
+    const identifier = entity.IDENTIFIER;
+    const address = entity.ADDRESS;
+
     const top_index = _.max(_.map(this.warehouses, warehouse => warehouse.ID));
     const warehouse = {
       ID: top_index + 1,
@@ -53,7 +55,11 @@ export class WarehouseRepository implements IRepository {
    * @param identifier L'identifier de la warehouse.
    * @param address L'addresse de la warehouse.
    */
-  public read(id?: number, identifier?: string, address?: string): IWarehouse[] {
+  public read(entity?: IWarehouse): IWarehouse[] {
+    const id = entity ? entity.ID : null;
+    const identifier = entity ? entity.IDENTIFIER : null;
+    const address = entity ? entity.ADDRESS : null;
+
     if (!id && !identifier && !address) {
       return new Array(...this.warehouses);
     }
@@ -71,7 +77,11 @@ export class WarehouseRepository implements IRepository {
    * @param identifier L'identifier de la warehouse.
    * @param address L'addresse de la warehouse.
    */
-  public update(id?: number, identifier?: string, address?: string): IWarehouse {
+  public update(entity: IWarehouse): IWarehouse {
+    const id = entity.ID;
+    const identifier = entity.IDENTIFIER;
+    const address = entity.ADDRESS;
+
     let updated_warehouse: IWarehouse;
 
     this.warehouses = _.map(this.warehouses, warehouse => {
@@ -100,7 +110,11 @@ export class WarehouseRepository implements IRepository {
    * @param identifier L'identifier de la warehouse.
    * @param address L'addresse de la warehouse.
    */
-  public delete(id?: number, identifier?: string, address?: string): IWarehouse {
+  public delete(entity: IWarehouse): IWarehouse {
+    const id = entity.ID;
+    const identifier = entity.IDENTIFIER;
+    const address = entity.ADDRESS;
+
     let deleted_warehouse: IWarehouse;
     this.warehouses = _.filter(this.warehouses, warehouse => {
       if ((id && warehouse.ID === id)

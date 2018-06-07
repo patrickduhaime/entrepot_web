@@ -24,11 +24,11 @@ const LOCATIONS = [
     "SERIAL_NUMBER": 'R01S14',
     "NODE_ID": 22
   }, {
-    "ID": 1,
+    "ID": 2,
     "SERIAL_NUMBER": 'R01S15',
     "NODE_ID": 23
   }, {
-    "ID": 1,
+    "ID": 3,
     "SERIAL_NUMBER": 'R01S16',
     "NODE_ID": 24
   }
@@ -55,12 +55,12 @@ const CATEGORIES = [
     "NAME": 'Matières premières',
     "DESCRIPTION": 'Matières premières et plus'
   }, {
-    "ID": 1,
+    "ID": 2,
     "CODE": 'L',
     "NAME": 'Liquides',
     "DESCRIPTION": 'Articles liquides'
   }, {
-    "ID": 1,
+    "ID": 3,
     "CODE": 'V',
     "NAME": 'Vrac',
     "DESCRIPTION": 'Articles stockés en vrac'
@@ -91,7 +91,6 @@ import { ArticleRepository } from './model/ArticleRepository';
 import { LocationRepository } from './model/LocationRepository';
 import { WarehouseRepository } from './model/WarehouseRepository';
 import { CategoryRepository } from './model/CategoryRepository';
-import { DynamicTable } from './DynamicTable';
 import { AdminView } from './view/AdminView'
 import { AdminController } from './controller/AdminController';
 import { MovementController } from './controller/MovementController';
@@ -102,12 +101,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   // Admin page init
   document.getElementById('admin-page')['obj'] = new AdminView(document.getElementById('admin-page'), SETTING);
-
-  // Dynamic table init
-  // document.getElementById("table-article")['obj'] = new DynamicTable(document.getElementById("table-article"), () => (SETTING.datasources[0].repository as ArticleRepository).read());
-  // document.getElementById("table-location")['obj'] = new DynamicTable(document.getElementById("table-location"), () => (SETTING.datasources[1].repository as LocationRepository).read());
-  // document.getElementById("table-warehouse")['obj'] = new DynamicTable(document.getElementById("table-warehouse"), () => (SETTING.datasources[2].repository as WarehouseRepository).read());
-  // document.getElementById("table-category")['obj'] = new DynamicTable(document.getElementById("table-category"), () => (SETTING.datasources[3].repository as CategoryRepository).read());
 
   // Controller bootstrap
   let menu_element = document.getElementById('navbar');
