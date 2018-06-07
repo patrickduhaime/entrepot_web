@@ -3,7 +3,6 @@ import * as Bootstrap from "bootstrap";
 import { translate } from '../StringTranslator';
 
 export class ModalView {
-  public type: string;
   private _title: string;
   public get title(): string {
     return this._title;
@@ -22,7 +21,7 @@ export class ModalView {
     value.forEach(field => {
       $(this.element).find('.modal-body').append(`<div class="form-group">
         <label>${translate(field.label)}</label>
-        <input class="form-control" type="text" placeholder="${field.value}" data-field="${field.label}">
+        <input class="form-control" type="text" value="${field.value}" data-field="${field.label}">
       </div>
       `);
     });
@@ -34,7 +33,7 @@ export class ModalView {
     this._fields = value;
   }
 
-  private data: { [key: string]: string };
+  public data: { [key: string]: string };
 
   constructor(private element) {
 
