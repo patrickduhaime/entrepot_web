@@ -1,7 +1,8 @@
 import * as JQuery from 'jquery';
 import { AdminView } from '../view/AdminView';
 import { Modal } from '../components/Modal';
-import { IRepository, IEntity } from '../model/Repository';
+import { IRepository } from '../model/Repository';
+import { IArticle } from "../model/ArticleRepository";
 
 export class AdminController {
   private addModal: Modal;
@@ -18,16 +19,26 @@ export class AdminController {
   }
 
   private bindEvents() {
-    $(this.element).find('.add-btn').click(event => { this.handleAddClick(event) });
-    $('#admin-add-modal .add-btn').click(event => { this.handleModalAdd(event) });
-    $('#admin-edit-modal .edit-btn').click(event => { this.handleModalEdit(event) });
+    $(this.element).find('.add-btn').click(event => {
+      this.handleAddClick(event)
+    });
+    $('#admin-add-modal .add-btn').click(event => {
+      this.handleModalAdd(event)
+    });
+    $('#admin-edit-modal .edit-btn').click(event => {
+      this.handleModalEdit(event)
+    });
     this.bindTableEvents();
   }
 
   private bindTableEvents(element?: HTMLElement) {
     let target = element ? $(element) : $(this.element).find('tbody tr');
-    $(target).click(event => { this.handleEditClick(event) });
-    $(target).find('.delete-btn').click(event => { this.handleDeleteClick(event) });
+    $(target).click(event => {
+      this.handleEditClick(event)
+    });
+    $(target).find('.delete-btn').click(event => {
+      this.handleDeleteClick(event)
+    });
   }
 
   private handleModalAdd(event: JQuery.Event) {
@@ -38,11 +49,11 @@ export class AdminController {
         acc[field.label] = field.value;
         return acc;
       }, { ID: null }));
-    } catch(e) {
-      $(modal).find('.alert.alert_msg').html(e);
+    } catch (e) {
+      $(modal).find('.alert. > span').html(e);
       return;
     }
-
+    if ('NAME' in newEntity || 'SERIAL_NUMBER' in newEntity) this.view.moveVIew.selector.add(newEntity as IArticle);
     this.bindTableEvents(this.view.add(modal.data.type, newEntity));
     modal.hide();
   }

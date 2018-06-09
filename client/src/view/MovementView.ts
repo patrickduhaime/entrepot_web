@@ -4,6 +4,7 @@ import { IRepository } from '../model/Repository';
 import { MovementController } from '../controller/MovementController';
 import { ArticleRepository, IArticle } from '../model/ArticleRepository';
 import { ArticleList } from '../components/ArticleList';
+import {AdminView} from "./AdminView";
 
 export interface IMovementViewOption {
   datasources: {
