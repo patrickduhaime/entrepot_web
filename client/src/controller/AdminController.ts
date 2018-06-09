@@ -97,6 +97,7 @@ export class AdminController {
       }
     });
     this.view.delete(data.type, data.id);
+      if ('ARTICLE' == data.type) this.view.moveVIew.selector.remove(+data.id);
   }
 
   private handleEditClick(event: JQuery.Event) {

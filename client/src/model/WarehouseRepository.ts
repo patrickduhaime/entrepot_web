@@ -170,8 +170,8 @@ export class WarehouseRepository implements IRepository {
      * @param {IWarehouse} entity
      */
     private validate(entity: IWarehouse): void {
-        let strError = '';
-        if (entity.IDENTIFIER == '') strError = "l'identifiant ne peut pas etre vide! <br>";
+        let strError = '<br>';
+        if (entity.IDENTIFIER == '') strError += "l'identifiant ne peut pas etre vide! <br>";
         else if (!/^E[0-9]+$/.test(entity.IDENTIFIER))
             strError += "l'identifiant de l'entrepot doit etre du format EXXXX (les XXXX sont numérique)! <br>";
         if (entity.STREETNUMBER == '') strError += "Le numéro de rue ne peut pas etre vide! <br>";
@@ -180,7 +180,7 @@ export class WarehouseRepository implements IRepository {
         if (entity.CITY == '') strError += "La ville ne peut pas etre vide! <br>";
         if (entity.POSTALCODE == '') strError += "Le code postal ne peut pas etre vide! <br>";
         if (strError != '') throw strError;
-        else {
+        else if(entity.ID == null){
             this.warehouses.forEach(function (warhouse) {
                 if (warhouse.IDENTIFIER == entity.IDENTIFIER) throw "L'entrepot existe déja! <br>";
             })
