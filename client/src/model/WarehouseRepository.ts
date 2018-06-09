@@ -36,7 +36,7 @@ export class WarehouseRepository implements IRepository {
      */
     public create(entity: IWarehouse): IWarehouse {
         this.validate(entity);
-        
+
         const identifier = entity.IDENTIFIER;
         const streetNumber = entity.STREETNUMBER;
         const street = entity.STREET;
