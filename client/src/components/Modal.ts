@@ -12,12 +12,24 @@ export class Modal {
     this._title = value;
   }
 
+  public set error_msg(msg: string){
+    $(this.element).find('.alert > span').text(msg);
+  }
+
+  public show_alert(){
+    $(this.element).find('.alert').show();
+  }
+
+  public hide_alert(){
+    $(this.element).find('.alert').hide();
+  }
+
   private _fields: { label: string, value: any }[];
   public get fields(): { label: string, value: any }[] {
     return this._fields;
   }
   public set fields(value: { label: string, value: any }[]) {
-    $(this.element).find('.modal-body').children().find(':not(.alert)').remove();
+    $(this.element).find('.modal-body > .form-group').remove();
     value.forEach(field => {
       $(this.element).find('.modal-body').append(`<div class="form-group">
         <label>${translate(field.label)}</label>

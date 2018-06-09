@@ -43,6 +43,8 @@ export class AdminController {
 
   private handleModalAdd(event: JQuery.Event) {
     const modal = this.addModal;
+    debugger;
+    modal.hide_alert;
     var newEntity;
     try {
       newEntity = this.currentRepository.create(modal.fields.reduce((acc, field) => {
@@ -50,11 +52,12 @@ export class AdminController {
         return acc;
       }, { ID: null }));
     } catch (e) {
-      $(modal).find('.alert. > span').html(e);
+      modal.error_msg = e;
+      modal.show_alert;
       return;
     }
-    if ('NAME' in newEntity || 'SERIAL_NUMBER' in newEntity) this.view.moveVIew.selector.add(newEntity as IArticle);
     this.bindTableEvents(this.view.add(modal.data.type, newEntity));
+    if ('NAME' in newEntity && 'SERIAL_NUMBER' in newEntity) this.view.moveVIew.selector.add(newEntity as IArticle);
     modal.hide();
   }
 
