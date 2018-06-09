@@ -2,7 +2,7 @@ import * as JQuery from 'jquery';
 import * as Bootstrap from "bootstrap";
 import { translate } from '../StringTranslator';
 
-export class ModalView {
+export class Modal {
   private _title: string;
   public get title(): string {
     return this._title;
