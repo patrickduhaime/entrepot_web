@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { IRepository, IEntity } from './Repository';
+import { GraphService } from '../service/GraphService';
 
 enum Op {
   CREATE = 'CREATE',
@@ -26,12 +27,29 @@ export class LocationRepository implements IRepository {
     this.operations = new Array<ILocationOperation>();
   }
 
+  private validate(location: ILocation) {
+    if (!GraphService.getInstance().nodeExist(location.NODE_ID)) {
+      throw new Error(`La node ${location.NODE_ID} n'existe pas.`);
+    }
+    if (!/^R[0-9]+C[0-9]+$/.test(location.SERIAL_NUMBER)) {
+      throw new Error(`Le numéro de série ${location.SERIAL_NUMBER} ne correspond pas au format R66C66.`);
+    }
+  }
+
   /**
    * Créé une location dans le repository.
    * @param serial_number Le numéro de série de la location.
    * @param node_id L'identifiant de la node du graphe.
    */
   public create(entity: ILocation): ILocation {
+    if (this.locations.find(x => x.NODE_ID === entity.NODE_ID)) {
+      throw new Error(`La node ${entity.NODE_ID} est déjà associé à une autre location.`);
+    }
+    if (this.locations.find(x => x.SERIAL_NUMBER === entity.SERIAL_NUMBER)) {
+      throw new Error(`Le numéro de série ${entity.SERIAL_NUMBER} est déjà associé à une autre location.`);
+    }
+
+    this.validate(entity);
     const serial_number = entity.SERIAL_NUMBER;
     const node_id = entity.NODE_ID;
 
@@ -78,6 +96,7 @@ export class LocationRepository implements IRepository {
    * @param node_id L'identifiant de la node du graphe.
    */
   public update(entity: ILocation): ILocation {
+    this.validate(entity);
     const id = entity.ID;
     const serial_number = entity.SERIAL_NUMBER;
     const node_id = entity.NODE_ID;
