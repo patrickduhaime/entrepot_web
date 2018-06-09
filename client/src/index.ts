@@ -3,34 +3,37 @@ const ARTICLES = [
     "ID": 1,
     "NAME": "Banane",
     "DESCRIPTION": "Il s'agit d'un fruit jaune",
-    "SERIAL_NUMBER": "101"
+    "SERIAL_NUMBER": "101",
+    "LOCATION": 3
   },
   {
     "ID": 2,
     "NAME": "Datte",
     "DESCRIPTION": "Il s'agit d'un fruit.",
-    "SERIAL_NUMBER": "102"
+    "SERIAL_NUMBER": "102",
+    "LOCATION": 2
   },
   {
     "ID": 3,
     "NAME": "Chat",
     "DESCRIPTION": "Ça ne se mange pas",
-    "SERIAL_NUMBER": "103"
+    "SERIAL_NUMBER": "103",
+    "LOCATION": 1
   }
 ];
 const LOCATIONS = [
   {
     "ID": 1,
     "SERIAL_NUMBER": 'R01S14',
-    "NODE_ID": 22
+    "NODE_ID": "r1c0"
   }, {
     "ID": 2,
     "SERIAL_NUMBER": 'R01S15',
-    "NODE_ID": 23
+    "NODE_ID": "r2c0"
   }, {
     "ID": 3,
     "SERIAL_NUMBER": 'R01S16',
-    "NODE_ID": 24
+    "NODE_ID": "r3c0"
   }
 ];
 const WAREHOUSES = [
@@ -87,6 +90,15 @@ const SETTING = {
   ]
 };
 
+const SETTING2 = {
+  datasources: {
+    'ARTICLE': new ArticleRepository(ARTICLES),
+    'LOCATION': new LocationRepository(LOCATIONS),
+    'WAREHOUSE': new WarehouseRepository(WAREHOUSES),
+    'CATEGORIE': new CategoryRepository(CATEGORIES)
+  }
+};
+
 import { ArticleRepository } from './model/ArticleRepository';
 import { LocationRepository } from './model/LocationRepository';
 import { WarehouseRepository } from './model/WarehouseRepository';
@@ -95,16 +107,16 @@ import { AdminView } from './view/AdminView'
 import { AdminController } from './controller/AdminController';
 import { MovementController } from './controller/MovementController';
 import { MenuController } from './controller/MenuController';
+import { MovementView } from './view/MovementView';
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
 
   // Admin page init
   document.getElementById('admin-page')['obj'] = new AdminView(document.getElementById('admin-page'), SETTING);
+  document.getElementById('movement-page')['obj'] = new MovementView(document.getElementById('movement-page'), SETTING2);
 
   // Controller bootstrap
   let menu_element = document.getElementById('navbar');
   menu_element['obj'] = new MenuController(menu_element);
-  let movement_element = document.getElementById('movement-page');
-  movement_element['obj'] = new MovementController(movement_element);
 });

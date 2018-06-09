@@ -1,19 +1,19 @@
 import * as JQuery from 'jquery';
 import { AdminView } from '../view/AdminView';
-import { ModalView } from '../view/ModalView';
+import { Modal } from '../components/Modal';
 import { IRepository, IEntity } from '../model/Repository';
 
 export class AdminController {
-  private addModal: ModalView;
-  private editModal: ModalView;
+  private addModal: Modal;
+  private editModal: Modal;
 
   private currentRepository: IRepository;
 
   constructor(
     public element: HTMLElement,
     public view: AdminView) {
-    this.addModal = new ModalView($('#admin-add-modal')[0]);
-    this.editModal = new ModalView($('#admin-edit-modal')[0]);
+    this.addModal = new Modal($('#admin-add-modal')[0]);
+    this.editModal = new Modal($('#admin-edit-modal')[0]);
     this.bindEvents();
   }
 
@@ -40,7 +40,6 @@ export class AdminController {
     modal.hide();
   }
 
-  //TODO
   private handleModalEdit(event: JQuery.Event) {
     const modal = this.editModal;
     const newEntity = this.currentRepository.update(modal.fields.reduce((acc, field) => {

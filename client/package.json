@@ -9,7 +9,8 @@
     "@types/bootstrap": "^4.1.0",
     "@types/jquery": "^3.3.2",
     "jquery": "^3.3.1",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "node-dijkstra": "^2.5.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.109",
