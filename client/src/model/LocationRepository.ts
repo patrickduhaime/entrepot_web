@@ -96,6 +96,12 @@ export class LocationRepository implements IRepository {
    * @param node_id L'identifiant de la node du graphe.
    */
   public update(entity: ILocation): ILocation {
+    if (this.locations.find(x => x.ID !== entity.ID && x.NODE_ID === entity.NODE_ID)) {
+      throw new Error(`La node ${entity.NODE_ID} est déjà associé à une autre location.`);
+    }
+    if (this.locations.find(x => x.ID !== entity.ID && x.SERIAL_NUMBER === entity.SERIAL_NUMBER)) {
+      throw new Error(`Le numéro de série ${entity.SERIAL_NUMBER} est déjà associé à une autre location.`);
+    }
     this.validate(entity);
     const id = entity.ID;
     const serial_number = entity.SERIAL_NUMBER;

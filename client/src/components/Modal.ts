@@ -29,6 +29,7 @@ export class Modal {
     return this._fields;
   }
   public set fields(value: { label: string, value: any }[]) {
+    this.hide_alert();
     $(this.element).find('.modal-body > .form-group').remove();
     value.forEach(field => {
       $(this.element).find('.modal-body').append(`<div class="form-group">

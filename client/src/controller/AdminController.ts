@@ -1,8 +1,8 @@
 import * as JQuery from 'jquery';
 import { AdminView } from '../view/AdminView';
 import { Modal } from '../components/Modal';
-import { IRepository } from '../model/Repository';
-import { IArticle } from "../model/ArticleRepository";
+import { IRepository, IEntity } from '../model/Repository';
+import { IArticle } from '../model/ArticleRepository';
 
 export class AdminController {
   private addModal: Modal;
@@ -19,46 +19,36 @@ export class AdminController {
   }
 
   private bindEvents() {
-    $(this.element).find('.add-btn').click(event => {
-      this.handleAddClick(event)
-    });
-    $('#admin-add-modal .add-btn').click(event => {
-      this.handleModalAdd(event)
-    });
-    $('#admin-edit-modal .edit-btn').click(event => {
-      this.handleModalEdit(event)
-    });
+    $(this.element).find('.add-btn').click(event => { this.handleAddClick(event) });
+    $('#admin-add-modal .add-btn').click(event => { this.handleModalAdd(event) });
+    $('#admin-edit-modal .edit-btn').click(event => { this.handleModalEdit(event) });
     this.bindTableEvents();
   }
 
   private bindTableEvents(element?: HTMLElement) {
     let target = element ? $(element) : $(this.element).find('tbody tr');
-    $(target).click(event => {
-      this.handleEditClick(event)
-    });
-    $(target).find('.delete-btn').click(event => {
-      this.handleDeleteClick(event)
-    });
+    $(target).click(event => { this.handleEditClick(event) });
+    $(target).find('.delete-btn').click(event => { this.handleDeleteClick(event) });
   }
 
   private handleModalAdd(event: JQuery.Event) {
     const modal = this.addModal;
     debugger;
-    modal.hide_alert;
+    modal.hide_alert();
     var newEntity;
     try {
       newEntity = this.currentRepository.create(modal.fields.reduce((acc, field) => {
         acc[field.label] = field.value;
         return acc;
       }, { ID: null }));
-    } catch (e) {
-      modal.error_msg = e;
-      modal.show_alert;
-      return;
-    }
-    this.bindTableEvents(this.view.add(modal.data.type, newEntity));
+
+      this.bindTableEvents(this.view.add(modal.data.type, newEntity));
     if ('NAME' in newEntity && 'SERIAL_NUMBER' in newEntity) this.view.moveVIew.selector.add(newEntity as IArticle);
     modal.hide();
+    } catch (e) {
+      modal.error_msg = e;
+      modal.show_alert();
+    }
   }
 
   private handleModalEdit(event: JQuery.Event) {
