@@ -48,7 +48,7 @@ export class AdminController {
             return acc;
         }, {ID: null}));
         this.bindTableEvents(this.view.add(modal.data.type, newEntity));
-        if ('NAME' in newEntity) this.view.moveVIew.selector.add(newEntity as IArticle);
+        if ('NAME' in newEntity || 'SERIAL_NUMBER' in newEntity) this.view.moveVIew.selector.add(newEntity as IArticle);
         modal.hide();
     }
 
