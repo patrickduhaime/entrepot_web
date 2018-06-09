@@ -171,14 +171,15 @@ export class WarehouseRepository implements IRepository {
      */
     private validate(entity: IWarehouse): void {
         let strError = '';
-        if (entity.IDENTIFIER == null) strError = "l'identifiant ne peut pas etre vide! \n";
-        else if (!entity.IDENTIFIER.startsWith('E') || !isNaN(+entity.IDENTIFIER.substr(1)))
+        let reg = /^\d+$/;
+        if (entity.IDENTIFIER == null) strError = "l'identifiant ne peut pas etre vide! <br>";
+        else if (!entity.IDENTIFIER.startsWith('E') || !reg.test(entity.IDENTIFIER.substr(1)))
             strError += "l'identifiant de l'entrepot doit etre du format EXXXX (les XXXX sont numérique)";
-        if (entity.STREETNUMBER == null) strError += "Le numéro de rue ne peut pas etre vide! \n";
-        else if(!isNaN(+entity.STREETNUMBER)) strError += "Le numéro de rue doit etre numérique! \n";
-        if (entity.STREET == null) strError += "La rue ne peut pas etre vide! \n";
-        if (entity.CITY == null) strError += "La ville ne peut pas etre vide! \n";
-        if (entity.POSTALCODE == null) strError += "Le code postal ne peut pas etre vide! \n";
+        if (entity.STREETNUMBER == null) strError += "Le numéro de rue ne peut pas etre vide! <br>";
+        else if(!reg.test(entity.STREETNUMBER)) strError += "Le numéro de rue doit etre numérique! <br>";
+        if (entity.STREET == null) strError += "La rue ne peut pas etre vide! <br>";
+        if (entity.CITY == null) strError += "La ville ne peut pas etre vide! <br>";
+        if (entity.POSTALCODE == null) strError += "Le code postal ne peut pas etre vide! <br>";
         if (strError != '') throw strError;
         else {
             this.warehouses.forEach(function (warhouse) {

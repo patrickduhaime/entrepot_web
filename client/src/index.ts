@@ -120,6 +120,7 @@ import {MovementView} from './view/MovementView';
 document.addEventListener("DOMContentLoaded", (event) => {
 
     // Admin page init
+    
     document.getElementById('movement-page')['obj'] = new MovementView(document.getElementById('movement-page'), SETTING2);
     document.getElementById('admin-page')['obj'] = new AdminView(document.getElementById('admin-page'), SETTING, document.getElementById('movement-page')['obj']);
 
