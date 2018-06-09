@@ -170,8 +170,8 @@ export class WarehouseRepository implements IRepository {
      * @param {IWarehouse} entity
      */
     private validate(entity: IWarehouse): void {
-        let strError = '<br>';
-        if (entity.IDENTIFIER == '') strError += "l'identifiant ne peut pas etre vide! <br>";
+        let strError = '';
+        if (entity.IDENTIFIER == '') strError += "<br>l'identifiant ne peut pas etre vide! <br>";
         else if (!/^E[0-9]+$/.test(entity.IDENTIFIER))
             strError += "l'identifiant de l'entrepot doit etre du format EXXXX (les XXXX sont numérique)! <br>";
         if (entity.STREETNUMBER == '') strError += "Le numéro de rue ne peut pas etre vide! <br>";
