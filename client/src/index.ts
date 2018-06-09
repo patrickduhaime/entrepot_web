@@ -4,21 +4,21 @@ const ARTICLES = [
     "NAME": "Banane",
     "DESCRIPTION": "Il s'agit d'un fruit jaune",
     "SERIAL_NUMBER": "101",
-    "LOCATION": 3
+    "LOCATION": "r1c0"
   },
   {
     "ID": 2,
     "NAME": "Datte",
     "DESCRIPTION": "Il s'agit d'un fruit.",
     "SERIAL_NUMBER": "102",
-    "LOCATION": 2
+    "LOCATION": "r1c1"
   },
   {
     "ID": 3,
     "NAME": "Chat",
     "DESCRIPTION": "Ça ne se mange pas",
     "SERIAL_NUMBER": "103",
-    "LOCATION": 1
+    "LOCATION": "r1c2"
   }
 ];
 const LOCATIONS = [

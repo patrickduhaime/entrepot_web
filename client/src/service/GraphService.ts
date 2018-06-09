@@ -7,8 +7,16 @@ import { IArticle } from '../model/ArticleRepository';
 
 export class GraphService {
   public graph;
+  private static singleton: GraphService;
 
-  constructor() {
+  public static getInstance() {
+    if (!GraphService.singleton) {
+      GraphService.singleton = new GraphService();
+    }
+    return GraphService.singleton;
+  }
+
+  private constructor() {
     this.graph = new Graph();
     this.graph.addNode('ES', { r0c4: 2 });
     this.graph.addNode('r0c0', { r0c1: 1, r1c0: 2 });
@@ -63,10 +71,36 @@ export class GraphService {
     this.graph.addNode('r9c4', { r9c3: 1 });
   }
 
-  public static sortArticle(articles: IArticle[]) {
+  public sortArticle(articles: IArticle[]) {
+    let to_sort = new Array<IArticle>(...articles);
     let new_articles = new Array<IArticle>();
 
-    // this.graph.path('', '', { cost: true }).cost;
-    // return nodeList;
+    let first_node = this.getClosest('ES', to_sort.map(x => x.LOCATION));
+    let last_added = first_node;
+
+    // flip flop
+    new_articles.push(to_sort.find(x => x.LOCATION === first_node));
+    to_sort = to_sort.filter(x => x.LOCATION !== first_node);
+
+    while (to_sort.length > 0) {
+      first_node = this.getClosest(last_added, to_sort.map(x => x.LOCATION));
+      last_added = first_node;
+
+      // flip flop
+      new_articles.push(to_sort.find(x => x.LOCATION === first_node));
+      to_sort = to_sort.filter(x => x.LOCATION !== first_node);
+    }
+
+    return new_articles;
+  }
+
+  private getClosest(firstNode: string, nodelist: string[]) {
+    return nodelist.reduce((acc, node) => {
+      let cost = this.graph.path(firstNode, node, { cost: true }).cost
+      if (node[0] === '' || acc[1] === 0 || cost < acc[1]) {
+        return [node, cost];
+      }
+      return acc;
+    }, ['', 0])[0];
   }
 }
