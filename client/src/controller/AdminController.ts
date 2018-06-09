@@ -32,10 +32,17 @@ export class AdminController {
 
   private handleModalAdd(event: JQuery.Event) {
     const modal = this.addModal;
-    const newEntity = this.currentRepository.create(modal.fields.reduce((acc, field) => {
-      acc[field.label] = field.value;
-      return acc;
-    }, { ID: null }));
+    var newEntity;
+    try {
+      newEntity = this.currentRepository.create(modal.fields.reduce((acc, field) => {
+        acc[field.label] = field.value;
+        return acc;
+      }, { ID: null }));
+    } catch(e) {
+      $(modal).find('.alert.alert_msg').html(e);
+      return;
+    }
+
     this.bindTableEvents(this.view.add(modal.data.type, newEntity));
     modal.hide();
   }

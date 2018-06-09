@@ -17,7 +17,7 @@ export class Modal {
     return this._fields;
   }
   public set fields(value: { label: string, value: any }[]) {
-    $(this.element).find('.modal-body').children().remove();
+    $(this.element).find('.modal-body').children().find(':not(.alert)').remove();
     value.forEach(field => {
       $(this.element).find('.modal-body').append(`<div class="form-group">
         <label>${translate(field.label)}</label>
