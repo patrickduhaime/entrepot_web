@@ -33,18 +33,18 @@ export class AdminController {
 
   private handleModalAdd(event: JQuery.Event) {
     const modal = this.addModal;
-    debugger;
     modal.hide_alert();
-    var newEntity;
     try {
-      newEntity = this.currentRepository.create(modal.fields.reduce((acc, field) => {
+      const newEntity = this.currentRepository.create(modal.fields.reduce((acc, field) => {
         acc[field.label] = field.value;
         return acc;
       }, { ID: null }));
 
       this.bindTableEvents(this.view.add(modal.data.type, newEntity));
-    if ('NAME' in newEntity && 'SERIAL_NUMBER' in newEntity) this.view.moveVIew.selector.add(newEntity as IArticle);
-    modal.hide();
+
+      if ('NAME' in newEntity && 'SERIAL_NUMBER' in newEntity) this.view.moveVIew.selector.add(newEntity as IArticle);
+
+      modal.hide();
     } catch (e) {
       modal.error_msg = e;
       modal.show_alert();
@@ -53,12 +53,21 @@ export class AdminController {
 
   private handleModalEdit(event: JQuery.Event) {
     const modal = this.editModal;
-    const newEntity = this.currentRepository.update(modal.fields.reduce((acc, field) => {
-      acc[field.label] = field.value;
-      return acc;
-    }, { ID: parseInt((modal.data as { type: string, id: string }).id) }));
-    this.bindTableEvents(this.view.update(modal.data.type, newEntity));
-    modal.hide();
+    debugger;
+    modal.hide_alert();
+    try {
+      const newEntity = this.currentRepository.update(modal.fields.reduce((acc, field) => {
+        acc[field.label] = field.value;
+        return acc;
+      }, { ID: parseInt((modal.data as { type: string, id: string }).id) }));
+
+      this.bindTableEvents(this.view.update(modal.data.type, newEntity));
+
+      modal.hide();
+    } catch (e) {
+      modal.error_msg = e;
+      modal.show_alert();
+    }
   }
 
   private handleAddClick(event: JQuery.Event) {

@@ -13,7 +13,7 @@ export class Modal {
   }
 
   public set error_msg(msg: string){
-    $(this.element).find('.alert > span').text(msg);
+    $(this.element).find('.alert > span')[0].innerHTML = msg;
   }
 
   public show_alert(){
