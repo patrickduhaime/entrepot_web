@@ -16,7 +16,7 @@ export interface IArticle extends IEntity {
   NAME: string;
   DESCRIPTION: string;
   SERIAL_NUMBER: string;
-  LOCATION: number;
+  LOCATION: string;
 }
 
 export class ArticleRepository implements IRepository {
