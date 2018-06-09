@@ -40,31 +40,32 @@ export class MovementView {
   }
 
   private buildOutArticleList() {
-    let el = $(`<div id="nonOptiList" class="row  mb-4">
-    <div class="col-lg-6 offset-lg-3">
-    </div>
-  </div>`)[0];
-    this.outArticleList = new ArticleList($(el).children()[0], []);
+    let el = $(`<div class="col-lg-6"></div>`)[0];
+    this.outArticleList = new ArticleList($(el)[0], []);
     return el;
   }
 
   private buildSelectedArticleList() {
-    let el = $(`<div id="nonOptiList" class="row  mb-4">
-    <div class="col-lg-6 offset-lg-3">
-    </div>
-  </div>`)[0];
-    this.selectedArticleList = new ArticleList($(el).children()[0], []);
+    let el = $(`<div class="col-lg-6"></div>`)[0];
+    this.selectedArticleList = new ArticleList($(el)[0], []);
     return el;
   }
 
   private buildActionSection() {
     return $(`<div class="row">
     <div class="col col-lg-6 offset-lg-3">
-      <button type="button" class="btn btn-success btn-block mb-2">
+      <button type="button" class="btn btn-success btn-block mb-2 out-btn">
         <i class="fas fa-sign-out-alt"></i>&nbsp;Sortir les articles
       </button>
     </div>
   </div>`);
+  }
+
+  private buildLists() {
+    let el = $(`<div id="nonOptiList" class="row  mb-4"></div>`);
+    el.append(this.buildSelectedArticleList())
+      .append(this.buildOutArticleList());
+    return el;
   }
 
   private buildPage() {
@@ -72,8 +73,7 @@ export class MovementView {
     div
       .append(this.buildTitle())
       .append(this.buildArticleSelector())
-      .append(this.buildSelectedArticleList())
-      .append(this.buildSelectedArticleList())
+      .append(this.buildLists())
       .append(this.buildActionSection());
     $(this.element).append(div.children());
   }

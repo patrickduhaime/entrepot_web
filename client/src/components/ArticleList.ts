@@ -14,9 +14,8 @@ export class ArticleList {
   }
 
   private buildList() {
-    $(this.element)
-      .append(`<ul class="list-group"></ul>`)
-      .append(...this.articles.map(article => this.buildListItem(article)));
+    $(this.element).append(`<ul class="list-group"></ul>`);
+    $(this.element).append(...this.articles.map(article => this.buildListItem(article)));
   }
 
   private buildListItem(article: IArticle) {
