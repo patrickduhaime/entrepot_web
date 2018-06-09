@@ -24,12 +24,7 @@ export class MovementController {
       this.view.outArticleList.articles.forEach(article => {
         this.view.outArticleList.remove(article.ID);
       })
-      //GraphService.getInstance().sortArticle(this.view.selectedArticleList.articles)
       GraphService.getInstance().sortArticle(this.view.selectedArticleList.articles).forEach(article => {
-        this.view.outArticleList.add(article);
-      });
-
-      this.view.selectedArticleList.articles.forEach(article => {
         this.view.outArticleList.add(article);
       });
     })
