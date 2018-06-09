@@ -1,150 +1,203 @@
 import * as _ from 'lodash';
-import { IRepository, IEntity } from './Repository';
+import {IEntity, IRepository} from './Repository';
 
 enum Op {
-  CREATE = 'CREATE',
-  UPDATE = 'UPDATE',
-  DELETE = 'DELETE'
+    CREATE = 'CREATE',
+    UPDATE = 'UPDATE',
+    DELETE = 'DELETE'
 }
 
 interface IWarehouseOperation {
-  operation: Op;
-  warehouse: IWarehouse;
+    operation: Op;
+    warehouse: IWarehouse;
 }
 
 export interface IWarehouse extends IEntity {
-  IDENTIFIER: string,
-  ADDRESS: string
+    IDENTIFIER: string,
+    STREETNUMBER: string,
+    STREET: string,
+    CITY: string,
+    POSTALCODE: string
 }
 
 export class WarehouseRepository implements IRepository {
-  private warehouses: IWarehouse[];
-  private operations: IWarehouseOperation[]
+    private warehouses: IWarehouse[];
+    private operations: IWarehouseOperation[]
 
-  constructor(warehouses?: IWarehouse[]) {
-    this.warehouses = warehouses ? warehouses : new Array<IWarehouse>();
-    this.operations = new Array<IWarehouseOperation>();
-  }
-
-  /**
-   * Créé une warehouse dans le repository.
-   * @param identifier L'identifier de la warehouse.
-   * @param address L'addresse de la warehouse.
-   */
-  public create(entity: IWarehouse): IWarehouse {
-    const identifier = entity.IDENTIFIER;
-    const address = entity.ADDRESS;
-
-    const top_index = _.max(_.map(this.warehouses, warehouse => warehouse.ID));
-    const warehouse = {
-      ID: top_index + 1,
-      IDENTIFIER: identifier,
-      ADDRESS: address
+    constructor(warehouses?: IWarehouse[]) {
+        this.warehouses = warehouses ? warehouses : new Array<IWarehouse>();
+        this.operations = new Array<IWarehouseOperation>();
     }
 
-    this.operations.push({ operation: Op.CREATE, warehouse: warehouse });
-    this.warehouses = _.union(this.warehouses, [warehouse]);
+    /**
+     * Créé une warehouse dans le repository.
+     * @param identifier L'identifier de la warehouse.
+     * @param address L'addresse de la warehouse.
+     */
+    public create(entity: IWarehouse): IWarehouse {
+        this.validate(entity);
+        
+        const identifier = entity.IDENTIFIER;
+        const streetNumber = entity.STREETNUMBER;
+        const street = entity.STREET;
+        const city = entity.CITY;
+        const postalCode = entity.POSTALCODE;
 
-    return warehouse;
-  }
+        const top_index = _.max(_.map(this.warehouses, warehouse => warehouse.ID));
+        const warehouse = {
+            ID: top_index + 1,
+            IDENTIFIER: identifier,
+            STREETNUMBER: streetNumber,
+            STREET: street,
+            CITY: city,
+            POSTALCODE: postalCode
+        }
 
-  /**
-   * Renvoi tous les warehouses qui correspond aux filtres.
-   * Renvoi tout si aucun filtre n'est donnés.
-   * @param id L'identifiant local d'une warehouse.
-   * @param identifier L'identifier de la warehouse.
-   * @param address L'addresse de la warehouse.
-   */
-  public read(entity?: IWarehouse): IWarehouse[] {
-    const id = entity ? entity.ID : null;
-    const identifier = entity ? entity.IDENTIFIER : null;
-    const address = entity ? entity.ADDRESS : null;
+        this.operations.push({operation: Op.CREATE, warehouse: warehouse});
+        this.warehouses = _.union(this.warehouses, [warehouse]);
 
-    if (!entity || (!id && !identifier && !address)) {
-      return new Array(...this.warehouses);
+        return warehouse;
     }
 
-    return (_.filter(this.warehouses, warehouse => {
-      return (id && warehouse.ID === id)
-        || (identifier && warehouse.IDENTIFIER === identifier)
-        || (address && warehouse.ADDRESS === address);
-    }));
-  }
+    /**
+     * Renvoi tous les warehouses qui correspond aux filtres.
+     * Renvoi tout si aucun filtre n'est donnés.
+     * @param id L'identifiant local d'une warehouse.
+     * @param identifier L'identifier de la warehouse.
+     * @param address L'addresse de la warehouse.
+     */
+    public read(entity?: IWarehouse): IWarehouse[] {
+        const id = entity ? entity.ID : null;
+        const identifier = entity ? entity.IDENTIFIER : null;
+        const streetNumber = entity ? entity.STREETNUMBER : null;
+        const street = entity ? entity.STREET : null;
+        const city = entity ? entity.CITY : null;
+        const postalCode = entity ? entity.POSTALCODE : null;
 
-  /**
-   * Met à jour la warehouse correspondant aux filtres.
-   * @param id L'identifiant local d'une warehouse.
-   * @param identifier L'identifier de la warehouse.
-   * @param address L'addresse de la warehouse.
-   */
-  public update(entity: IWarehouse): IWarehouse {
-    const id = entity.ID;
-    const identifier = entity.IDENTIFIER;
-    const address = entity.ADDRESS;
+        if (!entity || (!id && !identifier && !streetNumber && !street && !city && !postalCode)) {
+            return new Array(...this.warehouses);
+        }
 
-    let updated_warehouse: IWarehouse;
-
-    this.warehouses = _.map(this.warehouses, warehouse => {
-      if (warehouse.ID === id) {
-        updated_warehouse = {
-          ID: id,
-          IDENTIFIER: identifier ? identifier : warehouse.IDENTIFIER,
-          ADDRESS: address ? address : warehouse.ADDRESS
-        };
-        return updated_warehouse;
-      }
-      return warehouse;
-    });
-
-    if (updated_warehouse) {
-      this.operations.push({ operation: Op.UPDATE, warehouse: updated_warehouse });
-      return updated_warehouse;
-    } else {
-      throw new Error('L\'warehouse n\'est pas défini.');
+        return (_.filter(this.warehouses, warehouse => {
+            return (id && warehouse.ID === id)
+                || (identifier && warehouse.IDENTIFIER === identifier)
+                || (streetNumber && warehouse.STREETNUMBER === streetNumber)
+                || (street && warehouse.STREET === street)
+                || (city && warehouse.CITY === city)
+                || (postalCode && warehouse.POSTALCODE === postalCode);
+        }));
     }
-  }
 
-  /**
-   * Détruit une warehouse correspondant aux filtres.
-   * @param id L'identifiant local d'une warehouse.
-   * @param identifier L'identifier de la warehouse.
-   * @param address L'addresse de la warehouse.
-   */
-  public delete(entity: IWarehouse): IWarehouse {
-    const id = entity.ID;
-    const identifier = entity.IDENTIFIER;
-    const address = entity.ADDRESS;
+    /**
+     * Met à jour la warehouse correspondant aux filtres.
+     * @param id L'identifiant local d'une warehouse.
+     * @param identifier L'identifier de la warehouse.
+     * @param address L'addresse de la warehouse.
+     */
+    public update(entity: IWarehouse): IWarehouse {
+        this.validate(entity);
 
-    let deleted_warehouse: IWarehouse;
-    this.warehouses = _.filter(this.warehouses, warehouse => {
-      if ((id && warehouse.ID === id)
-        || (identifier && warehouse.IDENTIFIER === identifier)
-        || (address && warehouse.ADDRESS === address)) {
-        deleted_warehouse = warehouse;
-        return false;
-      }
-      return true;
-    });
+        const id = entity.ID;
+        const identifier = entity.IDENTIFIER;
+        const streetNumber = entity.STREETNUMBER;
+        const street = entity.STREET;
+        const city = entity.CITY;
+        const postalCode = entity.POSTALCODE;
 
-    if (deleted_warehouse) {
-      this.operations.push({ operation: Op.DELETE, warehouse: deleted_warehouse });
-      return deleted_warehouse;
-    } else {
-      throw new Error('L\'warehouse n\'est pas défini.');
+        let updated_warehouse: IWarehouse;
+
+        this.warehouses = _.map(this.warehouses, warehouse => {
+            if (warehouse.ID === id) {
+                updated_warehouse = {
+                    ID: id,
+                    IDENTIFIER: identifier ? identifier : warehouse.IDENTIFIER,
+                    STREETNUMBER: streetNumber ? streetNumber : warehouse.STREETNUMBER,
+                    STREET: street ? street : warehouse.STREET,
+                    CITY: city ? city : warehouse.CITY,
+                    POSTALCODE: postalCode ? postalCode : warehouse.POSTALCODE
+                };
+                return updated_warehouse;
+            }
+            return warehouse;
+        });
+
+        if (updated_warehouse) {
+            this.operations.push({operation: Op.UPDATE, warehouse: updated_warehouse});
+            return updated_warehouse;
+        } else {
+            throw new Error('L\'warehouse n\'est pas défini.');
+        }
     }
-  }
 
-  /**
-   * Load les warehouses du serveur si **warehouses** est `undefined`.
-   */
-  public load(): void {
-    // Fait un appel au serveur pour obtenir les warehouses.
-  }
+    /**
+     * Détruit une warehouse correspondant aux filtres.
+     * @param id L'identifiant local d'une warehouse.
+     * @param identifier L'identifier de la warehouse.
+     * @param address L'addresse de la warehouse.
+     */
+    public delete(entity: IWarehouse): IWarehouse {
+        const id = entity.ID;
+        const identifier = entity.IDENTIFIER;
+        const streetNumber = entity.STREETNUMBER;
+        const street = entity.STREET;
+        const city = entity.CITY;
+        const postalCode = entity.POSTALCODE;
 
-  /**
-   * Sauvegarde l'état du repository.
-   */
-  public save(): void {
-    // Fait un appel au serveur pour envoyer ses modifications.
-  }
+        let deleted_warehouse: IWarehouse;
+        this.warehouses = _.filter(this.warehouses, warehouse => {
+            if ((id && warehouse.ID === id)
+                || (identifier && warehouse.IDENTIFIER === identifier)
+                || (streetNumber && warehouse.STREETNUMBER === streetNumber)
+                || (street && warehouse.STREET === street)
+                || (city && warehouse.CITY === city)
+                || (postalCode && warehouse.POSTALCODE === postalCode)) {
+                deleted_warehouse = warehouse;
+                return false;
+            }
+            return true;
+        });
+
+        if (deleted_warehouse) {
+            this.operations.push({operation: Op.DELETE, warehouse: deleted_warehouse});
+            return deleted_warehouse;
+        } else {
+            throw new Error('L\'warehouse n\'est pas défini.');
+        }
+    }
+
+    /**
+     * Permet de valider les valeurs de l'entrepot si non thrower une erreur
+     * @param {IWarehouse} entity
+     */
+    private validate(entity: IWarehouse): void {
+        let strError = '';
+        if (entity.IDENTIFIER == null) strError = "l'identifiant ne peut pas etre vide! \n";
+        else if (!entity.IDENTIFIER.startsWith('E') || !isNaN(+entity.IDENTIFIER.substr(1)))
+            strError += "l'identifiant de l'entrepot doit etre du format EXXXX (les XXXX sont numérique)";
+        if (entity.STREETNUMBER == null) strError += "Le numéro de rue ne peut pas etre vide! \n";
+        else if(!isNaN(+entity.STREETNUMBER)) strError += "Le numéro de rue doit etre numérique! \n";
+        if (entity.STREET == null) strError += "La rue ne peut pas etre vide! \n";
+        if (entity.CITY == null) strError += "La ville ne peut pas etre vide! \n";
+        if (entity.POSTALCODE == null) strError += "Le code postal ne peut pas etre vide! \n";
+        if (strError != '') throw strError;
+        else {
+            this.warehouses.forEach(function (warhouse) {
+                if (warhouse.IDENTIFIER == entity.IDENTIFIER) throw "L'entrepot existe déja!";
+            })
+        }
+    }
+
+    /**
+     * Load les warehouses du serveur si **warehouses** est `undefined`.
+     */
+    public load(): void {
+        // Fait un appel au serveur pour obtenir les warehouses.
+    }
+
+    /**
+     * Sauvegarde l'état du repository.
+     */
+    public save(): void {
+        // Fait un appel au serveur pour envoyer ses modifications.
+    }
 }
