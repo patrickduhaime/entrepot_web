@@ -25,13 +25,13 @@ export class ArticleSelector {
   }
 
   public remove(id: number) {
-    let article: IArticle = null;
+    let tmp: IArticle = null;
     if ($(this.element).find(`option[value=${id}]`).get(0)) {
+      tmp = this.articles.find(article => article.ID === id);
+      this.articles = this.articles.filter(article => article.ID !== id);
       $(this.element).find(`option[value=${id}]`).remove();
-      article = this.articles.find(el => el.ID === id);
-      this.articles = this.articles.filter(el => el.ID !== id);
     }
-    return article;
+    return tmp;
   }
 
   private buildSelector() {

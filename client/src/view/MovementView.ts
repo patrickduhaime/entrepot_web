@@ -13,7 +13,8 @@ export interface IMovementViewOption {
 
 export class MovementView {
   public selector: ArticleSelector;
-  public list: ArticleList;
+  public selectedArticleList: ArticleList;
+  public outArticleList: ArticleList;
   public movementController: MovementController;
 
   constructor(public element: HTMLElement, public option: IMovementViewOption) {
@@ -38,12 +39,21 @@ export class MovementView {
     return el;
   }
 
-  private buildArticleList() {
+  private buildOutArticleList() {
     let el = $(`<div id="nonOptiList" class="row  mb-4">
     <div class="col-lg-6 offset-lg-3">
     </div>
   </div>`)[0];
-    this.list = new ArticleList($(el).children()[0], []);
+    this.outArticleList = new ArticleList($(el).children()[0], []);
+    return el;
+  }
+
+  private buildSelectedArticleList() {
+    let el = $(`<div id="nonOptiList" class="row  mb-4">
+    <div class="col-lg-6 offset-lg-3">
+    </div>
+  </div>`)[0];
+    this.selectedArticleList = new ArticleList($(el).children()[0], []);
     return el;
   }
 
@@ -62,7 +72,8 @@ export class MovementView {
     div
       .append(this.buildTitle())
       .append(this.buildArticleSelector())
-      .append(this.buildArticleList())
+      .append(this.buildSelectedArticleList())
+      .append(this.buildSelectedArticleList())
       .append(this.buildActionSection());
     $(this.element).append(div.children());
   }

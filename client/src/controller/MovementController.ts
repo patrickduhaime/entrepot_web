@@ -8,10 +8,16 @@ export class MovementController {
 
   private bindEvents() {
     this.view.selector.bindAdd((event, id) => {
-      this.view.list.add(this.view.selector.remove(id));
+      let article = this.view.selector.remove(id);
+      if (article) {
+        this.view.selectedArticleList.add(article);
+      }
     });
-    this.view.list.bindDelete((event, id) => {
-      this.view.selector.add(this.view.list.remove(id));
+    this.view.selectedArticleList.bindDelete((event, id) => {
+      let article = this.view.selectedArticleList.remove(id);
+      if (article) {
+        this.view.selector.add(article);
+      }
     })
   }
 }

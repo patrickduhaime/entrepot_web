@@ -16,6 +16,7 @@ export interface IArticle extends IEntity {
   NAME: string;
   DESCRIPTION: string;
   SERIAL_NUMBER: string;
+  LOCATION: number;
 }
 
 export class ArticleRepository implements IRepository {
@@ -37,13 +38,15 @@ export class ArticleRepository implements IRepository {
     const name = entity.NAME;
     const description = entity.DESCRIPTION;
     const serial_number = entity.SERIAL_NUMBER;
+    const location = entity.LOCATION;
 
     const top_index = _.max(_.map(this.articles, article => article.ID));
     const article = {
       ID: top_index + 1,
       NAME: name,
       DESCRIPTION: description,
-      SERIAL_NUMBER: serial_number
+      SERIAL_NUMBER: serial_number,
+      LOCATION: location
     }
 
     this.operations.push({ operation: Op.CREATE, article: article });
@@ -65,6 +68,7 @@ export class ArticleRepository implements IRepository {
     const name = entity ? entity.NAME : null;
     const description = entity ? entity.DESCRIPTION : null;
     const serial_number = entity ? entity.SERIAL_NUMBER : null;
+    const location = entity ? entity.LOCATION : null;
 
     if (!id && !name && !description && !serial_number) {
       return new Array(...this.articles);
@@ -74,7 +78,8 @@ export class ArticleRepository implements IRepository {
       return (id && article.ID === id)
         || (name && article.NAME === name)
         || (description && article.DESCRIPTION === description)
-        || (serial_number && article.SERIAL_NUMBER === serial_number);
+        || (serial_number && article.SERIAL_NUMBER === serial_number)
+        || (location && article.LOCATION === location);
     });
   }
 
@@ -90,6 +95,7 @@ export class ArticleRepository implements IRepository {
     const name = entity.NAME;
     const description = entity.DESCRIPTION;
     const serial_number = entity.SERIAL_NUMBER;
+    const location = entity.LOCATION;
 
     let updated_article: IArticle;
 
@@ -99,7 +105,8 @@ export class ArticleRepository implements IRepository {
           ID: id,
           NAME: name ? name : article.NAME,
           DESCRIPTION: description ? description : article.DESCRIPTION,
-          SERIAL_NUMBER: serial_number ? serial_number : article.SERIAL_NUMBER
+          SERIAL_NUMBER: serial_number ? serial_number : article.SERIAL_NUMBER,
+          LOCATION: location ? location : article.LOCATION
         };
         return updated_article;
       }
@@ -126,6 +133,7 @@ export class ArticleRepository implements IRepository {
     const name = entity.NAME;
     const description = entity.DESCRIPTION;
     const serial_number = entity.SERIAL_NUMBER;
+    const location = entity.LOCATION;
 
     let deleted_article: IArticle;
 
@@ -133,7 +141,8 @@ export class ArticleRepository implements IRepository {
       if ((id && article.ID === id)
         || (name && article.NAME === name)
         || (description && article.DESCRIPTION === description)
-        || (serial_number && article.SERIAL_NUMBER === serial_number)) {
+        || (serial_number && article.SERIAL_NUMBER === serial_number)
+        || (location && article.LOCATION === location)) {
         deleted_article = article;
         return false;
       }

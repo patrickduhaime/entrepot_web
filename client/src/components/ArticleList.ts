@@ -35,12 +35,12 @@ export class ArticleList {
   }
 
   public remove(id: number) {
-    let article: IArticle = null;
+    let tmp: IArticle = null;
     if ($(this.element).find(`li[data-article-id=${id}]`)[0]) {
-      $(this.element).find(`[data-article-id=${id}]`).remove();
-      article = this.articles.find(article => article.ID === id);
+      tmp = this.articles.find(article => article.ID === id);
       this.articles = this.articles.filter(article => article.ID !== id);
+      $(this.element).find(`li[data-article-id=${id}]`).remove();
     }
-    return article;
+    return tmp;
   }
 }
