@@ -62,6 +62,8 @@ export class AdminController {
       }, { ID: parseInt((modal.data as { type: string, id: string }).id) }));
 
       this.bindTableEvents(this.view.update(modal.data.type, newEntity));
+        if ('ARTICLE' == modal.data.type) this.view.moveVIew.selector.remove(+modal.data.id);
+        if ('ARTICLE' == modal.data.type) this.view.moveVIew.selector.add(newEntity as IArticle);
 
       modal.hide();
     } catch (e) {
@@ -117,7 +119,7 @@ export class AdminController {
       modal.fields = this.view.options.datasources
         .filter(datasource => datasource.title === data.type)
         .reduce((acc, datasource) => {
-          this.currentRepository = datasource.repository
+          this.currentRepository = datasource.repository;
           const entity = this.currentRepository.read({ ID: parseInt(data.id, 10) })[0];
           return [...Object.getOwnPropertyNames(entity).filter(property => property !== 'ID').map(property => {
             return { label: property, value: entity[property] };
